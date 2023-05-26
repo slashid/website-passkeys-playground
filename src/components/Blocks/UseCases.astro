@@ -1,0 +1,105 @@
+---
+import Card from '@components/Card.astro'
+import type { Props as LabelProps } from '@components/Label.astro'
+import SectionTitle, {
+  type Props as SectionTitleProps,
+} from '@components/SectionTitle.astro'
+
+export interface Props {
+  sectionTitle: SectionTitleProps
+  cards: {
+    label: LabelProps
+    title: string
+    description: string
+    link: { label: string; href: string }
+  }[]
+}
+
+const { sectionTitle, cards } = Astro.props
+
+const getRows = () => {
+  let rows: {
+    label: LabelProps
+    title: string
+    description: string
+    link: { label: string; href: string }
+  }[][] = []
+
+  for (let i = 0; i < Math.floor(cards.length / 2); i++) {
+    rows[i] = [cards[i * 2], cards[i * 2 + 1]]
+  }
+
+  return rows
+}
+---
+
+<section class="use-cases-section">
+  <div class="use-cases-content-wrapper">
+    <SectionTitle as="h3" {...sectionTitle} />
+
+    <div class="cards-wrapper">
+      {
+        getRows().map((row) => (
+          <div class="cards-row">
+            {row.map((card) => (
+              <Card as="h4" variant="highlight" {...card} />
+            ))}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .use-cases-section {
+    padding: var(--space-40px) var(--space-20px);
+
+    @media (--md) {
+      padding: var(--space-120px) var(--space-80px);
+    }
+  }
+
+  .use-cases-content-wrapper {
+    margin-inline: auto;
+
+    max-width: var(--content-max-width);
+  }
+
+  .cards-wrapper {
+    margin-top: var(--space-40px);
+
+    @media (--md) {
+      margin-top: var(--space-120px);
+    }
+  }
+
+  .cards-row {
+    display: grid;
+    gap: var(--space-32px);
+
+    &:not(:first-of-type) {
+      margin-top: var(--space-32px);
+    }
+
+    @media (--lg) {
+      &:nth-of-type(odd) {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      &:nth-of-type(even) {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (--xl) {
+      &:nth-of-type(odd) {
+        grid-template-columns: 545px auto;
+      }
+
+      &:nth-of-type(even) {
+        grid-template-columns: auto 545px;
+      }
+    }
+  }
+</style>

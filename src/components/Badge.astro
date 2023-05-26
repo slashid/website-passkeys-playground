@@ -1,0 +1,27 @@
+---
+export interface Props {
+  quantity: number
+}
+
+const { quantity } = Astro.props
+---
+
+<span class="host">
+  {Math.abs(quantity) > 99 ? <>&infin;</> : <>{quantity}</>}
+</span>
+
+<style>
+  .host {
+    padding: var(--space-3px) var(--space-6px);
+
+    color: var(--color-accent-contrast);
+    background-color: var(--color-accent);
+
+    font-size: var(--font-size-xxs);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--font-line-height-relaxed);
+    letter-spacing: var(--font-letter-spacing-normal);
+
+    border-radius: var(--radii-round);
+  }
+</style>

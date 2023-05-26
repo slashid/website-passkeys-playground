@@ -1,0 +1,52 @@
+---
+import { optimize } from 'svgo'
+
+import type { IconVariant } from './types'
+
+export interface Props extends astroHTML.JSX.HTMLAttributes {
+  variant: IconVariant
+}
+
+const { variant, ...attrs } = Astro.props
+
+//from: https://ellodave.dev/blog/article/using-svgs-as-astro-components-and-inline-css/
+const { default: rawIcon } = await import(`./Icons/${variant}.svg?raw`)
+
+// Use SVGO to optimize the icon
+const optimizedIcon = optimize(rawIcon, {
+  plugins: [
+    {
+      name: 'preset-default',
+      params: {
+        overrides: {
+          convertColors: {
+            currentColor: true,
+          },
+          removeViewBox: false,
+        },
+      },
+    },
+  ],
+})
+
+if (!('data' in optimizedIcon)) {
+  throw new Error(`Failed to optimize icon ${variant}`)
+}
+
+const innerHTML = optimizedIcon.data
+---
+
+<span {...attrs} data-icon={variant} set:html={innerHTML} />
+
+<style>
+  span {
+    /* default size */
+    width: var(--space-16px);
+
+    aspect-ratio: 1 / 1;
+
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
+</style>

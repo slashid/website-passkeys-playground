@@ -1,0 +1,78 @@
+[data-theme],
+.theme-light,
+.theme-dark,
+.theme-blue {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+}
+
+:root,
+.theme-light,
+[data-theme='light'] {
+  --color-background-hsl: var(--color-grey-50-hsl);
+  --color-background: hsl(var(--color-background-hsl));
+  --color-foreground-hsl: var(--color-blue-900-hsl);
+  --color-foreground: hsl(var(--color-foreground-hsl));
+  --color-secondary-hsl: var(--color-blue-900-hsl);
+  --color-secondary: hsl(var(--color-secondary-hsl) / var(--opacity-60));
+  --color-tertiary-hsl: var(--color-blue-900-hsl);
+  --color-tertiary: hsl(var(--color-tertiary-hsl) / var(--opacity-50));
+  --color-placeholder-hsl: var(--color-blue-900-hsl);
+  --color-placeholder: hsl(var(--color-placeholder-hsl) / var(--opacity-30));
+  --color-subtle-hsl: var(--color-blue-900-hsl);
+  --color-subtle: hsl(var(--color-subtle-hsl) / var(--opacity-8));
+  --color-soft-hsl: var(--color-blue-900-hsl);
+  --color-soft: hsl(var(--color-soft-hsl) / var(--opacity-4));
+  --color-offset-hsl: var(--color-blue-900-hsl);
+  --color-offset: hsl(var(--color-offset-hsl) / var(--opacity-1));
+
+  --color-accent-hsl: var(--color-blue-500-hsl);
+  --color-accent: hsl(var(--color-accent-hsl));
+  --color-accent-subtle-hsl: var(--color-blue-600-hsl);
+  --color-accent-subtle: hsl(var(--color-accent-subtle-hsl));
+  --color-accent-contrast-hsl: var(--color-grey-50-hsl);
+  --color-accent-contrast: hsl(var(--color-accent-contrast-hsl));
+}
+
+.theme-dark,
+[data-theme='dark'],
+.theme-blue,
+[data-theme='blue'] {
+  /* Background */
+  --color-background-hsl: var(--color-grey-900-hsl);
+  --color-background: hsl(var(--color-background-hsl));
+  --color-foreground-hsl: var(--color-grey-50-hsl);
+  --color-foreground: hsl(var(--color-foreground-hsl));
+  --color-secondary-hsl: var(--color-grey-50-hsl);
+  --color-secondary: hsl(var(--color-secondary-hsl) / var(--opacity-60));
+  --color-tertiary-hsl: var(--color-grey-50-hsl);
+  --color-tertiary: hsl(var(--color-tertiary-hsl) / var(--opacity-50));
+  --color-placeholder-hsl: var(--color-grey-50-hsl);
+  --color-placeholder: hsl(var(--color-placeholder-hsl) / var(--opacity-30));
+  --color-subtle-hsl: var(--color-grey-50-hsl);
+  --color-subtle: hsl(var(--color-subtle-hsl) / var(--opacity-8));
+  --color-soft-hsl: var(--color-grey-50-hsl);
+  --color-soft: hsl(var(--color-soft-hsl) / var(--opacity-4));
+  --color-offset-hsl: var(--color-grey-50-hsl);
+  --color-offset: hsl(var(--color-offset-hsl) / var(--opacity-1));
+
+  --color-accent-hsl: var(--color-blue-500-hsl);
+  --color-accent: hsl(var(--color-accent-hsl));
+  --color-accent-subtle-hsl: var(--color-blue-600-hsl);
+  --color-accent-subtle: hsl(var(--color-accent-subtle-hsl));
+  --color-accent-contrast-hsl: var(--color-grey-50-hsl);
+  --color-accent-contrast: hsl(var(--color-accent-contrast-hsl));
+}
+
+.theme-blue,
+[data-theme='blue'] {
+  --color-background-hsl: var(--color-blue-500-hsl);
+  --color-background: hsl(var(--color-background-hsl));
+
+  --color-accent-hsl: var(--color-blue-100-hsl);
+  --color-accent: hsl(var(--color-accent-hsl));
+  --color-accent-subtle-hsl: var(--color-blue-200-hsl);
+  --color-accent-subtle: hsl(var(--color-accent-subtle-hsl));
+  --color-accent-contrast-hsl: var(--color-blue-500-hsl);
+  --color-accent-contrast: hsl(var(--color-accent-contrast-hsl));
+}

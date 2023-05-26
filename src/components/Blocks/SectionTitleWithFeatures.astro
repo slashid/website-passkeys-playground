@@ -1,0 +1,58 @@
+---
+import FeaturesGroup, {
+  type Props as FeaturesGroupProps,
+} from '@components/Blocks/FeaturesGroup.astro'
+import SectionTitle, {
+  type Props as SectionTitleProps,
+} from '@components/SectionTitle.astro'
+
+export interface Props {
+  sectionTitle: SectionTitleProps
+  cardGroup: FeaturesGroupProps
+}
+
+const { sectionTitle, cardGroup } = Astro.props
+---
+
+<section class="title-features-section">
+  <div class="title-features-content-wrapper">
+    <SectionTitle as="h3" {...sectionTitle} />
+
+    <div class:list={['spacer', sectionTitle.size]}></div>
+
+    <FeaturesGroup {...cardGroup} />
+  </div>
+</section>
+
+<style>
+  .title-features-section {
+    padding: var(--space-40px) var(--space-20px);
+
+    @media (--md) {
+      padding: var(--space-120px) var(--space-80px) var(--space-40px)
+        var(--space-80px);
+    }
+  }
+
+  .title-features-content-wrapper {
+    margin-inline: auto;
+
+    max-width: var(--content-max-width);
+  }
+
+  .spacer {
+    margin-top: var(--space-40px);
+
+    @media (--md) {
+      margin-top: var(--space-80px);
+    }
+
+    &.lg {
+      margin-top: var(--space-40px);
+
+      @media (--md) {
+        margin-top: var(--space-120px);
+      }
+    }
+  }
+</style>

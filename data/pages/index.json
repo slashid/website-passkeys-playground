@@ -1,0 +1,15 @@
+{
+  "title": "WebAuthn | The future is passwordless | SlashID",
+  "tryItOut": {
+    "labelTitle": "WebAuthn",
+    "labelSupport": "Passkeys",
+    "title": "Try it out!",
+    "description": "Use the form to log in with SlashID using WebAuthn."
+  },
+  "underTheHood": {
+    "labelTitle": "SlashID",
+    "labelSupport": "Core SDK",
+    "title": "Under the hood",
+    "description": "Provide a seamless authentication experience with a single method call!"
+  }
+}

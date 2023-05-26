@@ -1,0 +1,116 @@
+---
+import Button from '@components/Button.astro'
+import Features from '@components/Illustrations/Features.astro'
+import Product from '@components/Illustrations/Product.astro'
+import {
+  FeaturesIllustrationVariant,
+  isProductIllustration,
+  ProductsIllustrationVariant,
+} from '@components/Illustrations/types'
+import type { Props as LabelProps } from '@components/Label.astro'
+import SectionTitle from '@components/SectionTitle.astro'
+
+export interface Props {
+  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+  variant?: 'alternating' | 'with-illustration-after'
+  rows: {
+    label: LabelProps
+    title: string
+    description: string
+    illustration: FeaturesIllustrationVariant | ProductsIllustrationVariant
+    href?: string
+  }[]
+}
+
+const { variant = 'alternating', rows, as = 'h4' } = Astro.props
+---
+
+<section class="image-and-text-section">
+  {
+    rows.map(({ label, title, description, illustration, href }) => (
+      <div class:list={['image-and-text-host', variant]}>
+        <div class="content">
+          <SectionTitle
+            as={as}
+            size="sm"
+            title={title}
+            description={description}
+            label={label}
+          />
+
+          {href && (
+            <Button
+              as="a"
+              href={href}
+              label="Learn more"
+              variant="negative"
+              class="button"
+            />
+          )}
+        </div>
+
+        {isProductIllustration(illustration) ? (
+          <Product variant={illustration} />
+        ) : (
+          <Features variant={illustration} />
+        )}
+      </div>
+    ))
+  }
+</section>
+
+<style>
+  .image-and-text-section {
+    padding-inline: var(--space-20px);
+
+    @media (--md) {
+      padding-inline: var(--space-80px);
+    }
+  }
+
+  .image-and-text-host {
+    padding-block: var(--space-20px);
+    margin-inline: auto;
+
+    max-width: var(--content-max-width);
+
+    display: flex;
+    flex-direction: column-reverse;
+    gap: var(--space-32px);
+
+    &.with-illustration-after {
+      flex-direction: column;
+    }
+
+    @media (--md) {
+      padding-block: var(--space-40px);
+      flex-direction: row;
+
+      &.with-illustration-after {
+        flex-direction: row;
+      }
+
+      &:not(.with-illustration-after):nth-of-type(odd) {
+        flex-direction: row-reverse;
+      }
+    }
+  }
+
+  .button {
+    margin-top: var(--space-16px);
+  }
+
+  .content {
+    padding-bottom: var(--space-12px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    @media (--md) {
+      max-width: 350px;
+      flex-shrink: 0;
+    }
+  }
+</style>

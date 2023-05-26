@@ -1,0 +1,164 @@
+---
+import Button, { type Props as ButtonProps } from './Button.astro'
+import Label, { type Props as LabelProps } from './Label.astro'
+
+export interface Props {
+  variant?:
+    | 'left'
+    | 'left-centered-mobile'
+    | 'center'
+    | 'space-between'
+    | 'space-between-centered-mobile'
+  size?: 'lg' | 'md' | 'sm'
+  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+  title: string
+  description?: string
+  label?: LabelProps
+  button?: ButtonProps
+}
+
+const {
+  variant = 'left',
+  size = 'md',
+  title,
+  as = 'h2',
+  description,
+  label,
+  button,
+} = Astro.props
+
+const Element = as
+
+const titles = {
+  lg: 'font-6xl-title',
+  md: 'font-5xl-title',
+  sm: 'font-3xl-title',
+} as const
+---
+
+<div class:list={['sectiontitle-host', variant, size]}>
+  <div class:list={['wrapper', { 'with-button': button }]}>
+    {label && <Label {...label} />}
+
+    <Element class:list={['title', titles[size]]}>{title}</Element>
+  </div>
+
+  {
+    (description || button) && (
+      <div class="wrapper">
+        {description && (
+          <p
+            class:list={[
+              'description',
+              `${size === 'md' ? 'font-2xl' : 'font-xl'}`,
+            ]}
+          >
+            {description}
+          </p>
+        )}
+
+        {button && <Button {...button} />}
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .sectiontitle-host {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16px);
+
+    &.center {
+      align-items: center;
+      text-align: center;
+
+      & .wrapper {
+        align-items: center;
+      }
+    }
+
+    &.left-centered-mobile,
+    &.space-between-centered-mobile {
+      align-items: center;
+      text-align: center;
+
+      & .wrapper {
+        align-items: center;
+      }
+
+      @media (--md) {
+        align-items: revert;
+        text-align: revert;
+
+        & .wrapper {
+          align-items: revert;
+
+          &:nth-of-type(2) {
+            margin-top: var(--space-56);
+          }
+        }
+      }
+    }
+
+    @media (--md) {
+      &.space-between,
+      &.space-between-centered-mobile {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: var(--space-128px);
+
+        & .description {
+          max-width: 545px;
+        }
+
+        & .wrapper:nth-of-type(2) {
+          margin-top: var(--space-56);
+        }
+      }
+
+      /* Width constraints */
+      &.left {
+        &.md .wrapper {
+          max-width: 720px;
+        }
+
+        &.sm {
+          max-width: 420px;
+        }
+      }
+
+      &.left-centered-mobile {
+        &.md .wrapper {
+          max-width: 545px;
+        }
+
+        &.sm {
+          max-width: 350px;
+        }
+      }
+
+      &.center {
+        &.lg .wrapper {
+          max-width: 888px;
+        }
+
+        &.md .wrapper {
+          max-width: 660px;
+        }
+      }
+    }
+  }
+
+  .description {
+    color: var(--color-secondary);
+  }
+
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-16px);
+  }
+</style>

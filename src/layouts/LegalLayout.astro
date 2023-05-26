@@ -1,0 +1,60 @@
+---
+import type { MarkdownLayoutProps } from 'astro'
+
+import type { LegalFrontmatter } from '@common/types'
+import Footer from '@components/Footer.astro'
+import Navbar from '@components/Navbar/Navbar.astro'
+import RichText from '@components/RichText.astro'
+import SectionTitle from '@components/SectionTitle.astro'
+
+import BaseLayout from './BaseLayout.astro'
+
+export type Props = MarkdownLayoutProps<LegalFrontmatter>
+
+const {
+  frontmatter: { title, publishedDate },
+} = Astro.props
+---
+
+<BaseLayout title={[title, 'SlashID'].filter(Boolean).join(' | ')}>
+  <Navbar />
+
+  <main>
+    <div class="title-wrapper">
+      <SectionTitle
+        as="h1"
+        variant="left"
+        title={title}
+        description={`Last modified: ${publishedDate}`}
+      />
+    </div>
+
+    <RichText>
+      <slot />
+    </RichText>
+  </main>
+
+  <Footer withPreFooter />
+</BaseLayout>
+
+<style>
+  main {
+    padding: var(--space-72px) var(--space-20px);
+
+    max-width: 660px;
+    box-sizing: content-box;
+    margin: 0 auto;
+
+    @media (--md) {
+      padding: var(--space-88px) var(--space-80px);
+    }
+  }
+
+  .title-wrapper {
+    padding-block: var(--space-40px);
+
+    @media (--md) {
+      padding-block: var(--space-120px);
+    }
+  }
+</style>

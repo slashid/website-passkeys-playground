@@ -1,0 +1,60 @@
+---
+import Badge from '@components/Badge.astro'
+import Icon from '@components/Icon/Icon.astro'
+
+import type { Navigation, NavigationChildren } from './types'
+
+export type Props = NavigationChildren | Navigation
+
+const { icon, label, badgeQuantity, href } = Astro.props
+---
+
+<a class:list={['navitem-host', 'font-base-label']} href={href}>
+  {icon && <Icon variant={icon} class="navitem-icon" />}
+
+  <p class:list={['navitem-title', 'font-base-title']}>{label}</p>
+
+  {badgeQuantity && <Badge quantity={badgeQuantity} />}
+</a>
+
+<style>
+  .navitem-host {
+    --item-bg-color: var(--color-background);
+    --item-title-color: var(--color-foreground);
+    --item-icon-color: var(--color-tertiary);
+
+    padding: var(--space-16px) var(--space-12px);
+
+    border-radius: var(--radii-m);
+    background-color: var(--item-bg-color);
+
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-12px);
+
+    transition: color var(--transition-appearance),
+      background-color var(--transition-appearance);
+
+    @media (hover: hover) {
+      &:hover {
+        --item-bg-color: var(--color-soft);
+      }
+    }
+
+    &:focus {
+      --item-bg-color: var(--color-soft);
+      --item-title-color: var(--color-foreground);
+      --item-icon-color: var(--color-tertiary);
+    }
+  }
+
+  .navitem-icon {
+    transition: color var(--transition-appearance);
+    color: var(--item-icon-color);
+  }
+
+  .navitem-title {
+    transition: color var(--transition-appearance);
+    color: var(--item-title-color);
+  }
+</style>

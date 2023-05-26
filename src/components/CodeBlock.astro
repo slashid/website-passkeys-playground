@@ -1,0 +1,110 @@
+---
+import { Code } from 'astro/components'
+import type * as shiki from 'shiki'
+
+export interface Props {
+  code: string
+  lang: shiki.Lang | shiki.ILanguageRegistration
+}
+
+const { code, lang } = Astro.props
+const numberOfLines = code.split(/\r?\n/).length
+
+const convertLang = (lang: shiki.Lang | shiki.ILanguageRegistration) => {
+  switch (lang) {
+    case 'js':
+      return 'javascript'
+
+    default:
+      return lang
+  }
+}
+---
+
+<div class:list={['host', 'code-block-host']}>
+  <div class="code-wrapper">
+    <Code code={code} lang={lang} theme="css-variables" />
+  </div>
+
+  <div class="info">
+    <p class="language">
+      {convertLang(lang)}
+    </p>
+
+    <p class="lineInfo">
+      {numberOfLines}/{numberOfLines} ln
+    </p>
+  </div>
+</div>
+
+<style>
+  .host {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
+    background-color: var(--color-offset);
+
+    border: var(--space-1px) solid var(--color-subtle);
+    border-radius: var(--radii-xl);
+
+    & :global(.astro-code) {
+      /* color-offset is an opacity color, so we need to remove it so it doesn't overlay */
+      background-color: transparent !important;
+    }
+  }
+
+  .code-wrapper {
+    height: 100%;
+
+    display: flex;
+    align-items: stretch;
+  }
+
+  .info {
+    border-top: var(--space-1px) solid var(--color-subtle);
+    padding: var(--space-24px);
+
+    display: flex;
+    gap: var(--space-16px);
+  }
+</style>
+
+<style is:global>
+  .code-block-host {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    & {
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+
+    font-family: var(--font-family-code);
+    font-size: var(--font-size-sm);
+    line-height: var(--font-line-height-code);
+
+    overflow-x: scroll;
+
+    & .astro-code {
+      /* from: https://github.com/shikijs/shiki/issues/3#issuecomment-830564854 */
+      & code {
+        counter-reset: step;
+        counter-increment: step 0;
+      }
+
+      & code .line::before {
+        content: counter(step);
+        counter-increment: step;
+
+        width: 1rem;
+        margin-right: 1.5rem;
+
+        display: inline-block;
+        text-align: right;
+
+        color: var(--code-line-number);
+      }
+    }
+  }
+</style>

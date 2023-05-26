@@ -1,0 +1,78 @@
+---
+import Card from '@components/Card.astro'
+import type { Props as LabelProps } from '@components/Label.astro'
+import SectionTitle from '@components/SectionTitle.astro'
+
+import SubtleGroup from './SubtleGroup.astro'
+
+export interface Props {
+  label: LabelProps
+  title: string
+  mainCard: { label: LabelProps; title: string; description: string }
+  cards: {
+    label: LabelProps
+    title: string
+    description: string
+  }[]
+}
+
+const { label, title, mainCard, cards } = Astro.props
+---
+
+<section class="benefits-section" data-theme="dark">
+  <div class="benefits-section-content">
+    <div class="benefits-title-wrapper">
+      <SectionTitle
+        size="lg"
+        variant="center"
+        label={{ label: label.label }}
+        title={title}
+      />
+    </div>
+
+    <Card
+      variant="features-with-illustration"
+      label={mainCard.label}
+      title={mainCard.title}
+      description={mainCard.description}
+    />
+
+    <div class="spacer"></div>
+
+    <SubtleGroup variant="three-columns-two-rows" cards={cards} />
+  </div>
+</section>
+
+<style>
+  .benefits-section {
+    padding-inline: var(--space-20px);
+    padding-bottom: var(--space-40px);
+
+    @media (--md) {
+      padding-inline: var(--space-80px);
+      padding-bottom: var(--space-120px);
+    }
+  }
+
+  .benefits-section-content {
+    margin-inline: auto;
+
+    max-width: var(--content-max-width);
+  }
+
+  .benefits-title-wrapper {
+    padding-block: var(--space-40px);
+
+    @media (--md) {
+      padding-block: var(--space-120px);
+    }
+  }
+
+  .spacer {
+    margin-top: var(--space-20px);
+
+    @media (--md) {
+      margin-top: var(--space-32px);
+    }
+  }
+</style>

@@ -1,0 +1,14 @@
+{
+  "cssvar.files": [
+    "**/*/tokens.pcss",
+    "**/*/theme.pcss",
+    "**/*/constants.pcss"
+  ],
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "astro", // Enable .astro
+    "typescript", // Enable .ts
+    "typescriptreact" // Enable .tsx
+  ]
+}

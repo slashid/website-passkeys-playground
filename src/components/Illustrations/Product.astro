@@ -1,0 +1,41 @@
+---
+import type { ProductsIllustrationVariant } from './types'
+
+export interface Props {
+  variant: ProductsIllustrationVariant
+  size?: 'lg' | 'md'
+}
+
+const { variant, size = 'lg' } = Astro.props
+
+const getSrc = (size: 'lg' | 'md') => {
+  return `/images/illustrations/products/${variant}-${size}.png`
+}
+---
+
+<picture class:list={['product-illustration-host', size]}>
+  {size === 'md' && <source media="(min-width: 768px)" srcset={getSrc('md')} />}
+
+  <source srcset={getSrc('lg')} />
+
+  <img src={getSrc(size)} alt={variant} class="image" />
+</picture>
+
+<style>
+  .product-illustration-host {
+    &.lg {
+      max-width: 970px;
+      max-height: 566px;
+    }
+
+    &.md {
+      max-width: 775px;
+      max-height: 580px;
+    }
+  }
+
+  .image {
+    width: 100%;
+    height: auto;
+  }
+</style>

@@ -1,0 +1,64 @@
+---
+import Card from '@components/Card.astro'
+import type { Props as CardProps } from '@components/Card.astro'
+
+export interface Props {
+  variant?:
+    | 'three-columns'
+    | 'three-columns-two-rows'
+    | 'two-columns-highlight-left'
+    | 'two-columns-highlight-right'
+  cards: CardProps[]
+}
+
+function cardPropsWithoutLink(card: CardProps) {
+  /* eslint-disable no-unused-vars*/
+  const { link, ...rest } = card
+  return rest
+}
+
+const { variant = 'three-columns', cards } = Astro.props
+---
+
+<div class:list={['features-row-host', variant]}>
+  {
+    cards.map((card) => (
+      <Card variant="features" {...cardPropsWithoutLink(card)} />
+    ))
+  }
+</div>
+
+<style>
+  .features-row-host {
+    display: grid;
+    gap: var(--space-20px);
+
+    @media (--md) {
+      gap: var(--space-32px);
+    }
+
+    @media (--lg) {
+      &.three-columns {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      &.three-columns-two-rows {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      &.two-columns-highlight-left {
+        grid-template-columns: auto 420px;
+      }
+
+      &.two-columns-highlight-right {
+        grid-template-columns: 420px auto;
+      }
+    }
+
+    @media (--xl) {
+      &.three-columns-two-rows {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  }
+</style>

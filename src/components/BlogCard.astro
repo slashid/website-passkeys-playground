@@ -1,0 +1,132 @@
+---
+import type { BlogFrontmatter } from '@common/types'
+import { formatDate } from '@common/utils/formatDate'
+
+import AuthorId from './AuthorId.astro'
+import Label from './Label.astro'
+
+export interface Props extends astroHTML.JSX.AnchorHTMLAttributes {
+  frontmatter: BlogFrontmatter
+  variant?: 'normal' | 'highlight'
+}
+
+const {
+  frontmatter: {
+    coverImage,
+    title,
+    category,
+    publishedDate,
+    description,
+    author,
+  },
+  variant = 'normal',
+  ...attrs
+} = Astro.props
+---
+
+<a class:list={['blogcard-host', variant]} {...attrs}>
+  <img class="cover" src={coverImage} alt={title} />
+
+  <div class="content">
+    <div>
+      <Label label={[category, formatDate(publishedDate)]} />
+
+      <h3
+        class:list={[
+          'title',
+          `${variant === 'normal' ? 'font-2xl-title' : 'font-4xl'}`,
+        ]}
+      >
+        {title}
+      </h3>
+
+      {
+        description && (
+          <p class:list={['description', 'font-base']}>
+            {Array.isArray(description) ? description[0] : description || ''}
+          </p>
+        )
+      }
+    </div>
+
+    <AuthorId size="sm" author={author} />
+  </div>
+</a>
+
+<style>
+  .blogcard-host {
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+
+    border: var(--space-1) solid var(--color-subtle);
+    border-radius: var(--radii-2xl);
+    background-color: var(--color-offset);
+
+    box-shadow: var(--shadow-xs);
+
+    transition: background-color var(--transition-appearance);
+
+    @media (hover: hover) {
+      &:hover {
+        background-color: var(--color-soft);
+      }
+    }
+
+    @media (--md) {
+      &.highlight {
+        flex-direction: row-reverse;
+        justify-content: space-between;
+
+        & .cover {
+          width: 50%;
+          aspect-ratio: var(--aspect-rectangle);
+        }
+
+        & .content {
+          max-width: 464px;
+          padding: var(--space-32px);
+        }
+
+        & .title {
+          margin-block: var(--space-32px) var(--space-16px);
+        }
+      }
+    }
+  }
+
+  .cover {
+    width: 100%;
+    aspect-ratio: var(--aspect-thin);
+
+    display: block;
+
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .content {
+    padding: var(--space-20px);
+
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+
+    flex-grow: 1;
+
+    @media (--md) {
+      padding: var(--space-24px);
+    }
+  }
+
+  .title {
+    margin-block: var(--space-16px) var(--space-12px);
+  }
+
+  .description {
+    margin-bottom: var(--space-24px);
+
+    color: var(--color-secondary);
+  }
+</style>

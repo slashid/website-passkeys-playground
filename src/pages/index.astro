@@ -1,0 +1,586 @@
+---
+import { ROUTES } from '@common/routes'
+import CodeBlock from '@components/Blocks/CodeBlock.astro'
+import Divider from '@components/Blocks/Divider.astro'
+import Button from '@components/Button.astro'
+import Input from '@components/Input.astro'
+import SectionTitle from '@components/SectionTitle.astro'
+import Select from '@components/Select.astro'
+import data from '@data/pages/index.json'
+import MainLayout from '@layouts/MainLayout.astro'
+
+const code = `const sid = new window.slashid.SlashID()
+
+const user = await sid.id(
+  SLASHID_ORG_ID,
+  {
+    type: 'email_address',
+    value: 'test@example.com',
+  },
+  {
+    method: 'webauthn',
+    // optional WebAuthn configuration
+    // options: {
+    //   attachment: 'any',
+    //   user_verification: 'required',
+    //   resident_key: 'preferred',
+    //   attestation: 'indirect'
+    // },
+  }
+)`
+---
+
+<script>
+  import './_index'
+</script>
+
+<MainLayout title={data.title} navbarTheme="dark">
+  <section class="developers-section" data-theme="dark">
+    <section class="features-section">
+      <section id="form-wrapper" class="wrapper" data-state="idle">
+        <div class="info">
+          <SectionTitle
+            as="h3"
+            size={'md'}
+            label={{
+              label: [data.tryItOut.labelTitle, data.tryItOut.labelSupport],
+            }}
+            title={data.tryItOut.title}
+            description={data.tryItOut.description}
+          />
+        </div>
+        <div class="holder">
+          <h2 class="font-2xl-title">
+            Authenticate using WebAuthn
+          </h2>
+          <form id="request-access-form">
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              label="Email"
+              placeholder="Type your email address"
+              required
+            />
+
+            <p class="error font-base">
+              There has been an error while submiting your form. Please try
+              again!
+            </p>
+            <div class="btn-row">
+              <Button
+                id="submit-button"
+                as="button"
+                type="submit"
+                label="Authenticate"
+                style="margin-right:16px;"
+              />
+              <Button
+              id="advanced-settings-form"
+              type="button"
+              variant="negative"
+              label="Advanced settings"
+            />
+            </div>
+            <div id="advanced-settings" data-display="hidden">
+              <div class="row">
+                <Select
+                  label="Attachment"
+                  name="attachment"
+                  options={['platform', 'any', 'cross_platform']}
+                  style="min-width: 100px;"
+                />
+                <Select
+                  label="User Verification"
+                  name="user_verification"
+                  options={['preferred', 'discouraged', 'required']}
+                />
+              </div>
+              <div class="row">
+                <Select
+                  label="Resident key"
+                  name="resident_key"
+                  options={['preferred', 'discouraged', 'required']}
+                />
+                <Select
+                  label="Attestation"
+                  name="attestation"
+                  options={['none', 'indirect', 'direct']}
+                />
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="success holder">
+          <h3 class="font-2xl-title">
+            You're successfully authenticated with WebAuthn!
+          </h3>
+          <br />
+          <p class="font-xl">Your unique credential ID:</p>
+          <pre id="credential-id"></pre>
+          <br />
+
+          <Button label="Back to home" as="a" href={ROUTES.home} />
+        </div>
+        <div class="loading holder">
+          <h3 class="font-2xl-title">Follow the instructions</h3>
+          <p class="font-2xl">
+            You'll be prompted to validate your login via your device. If you are registering for the first time, you will receive an email to verify your email address.
+          </p>
+        </div>
+        <div class="links">
+          <Button
+            as="a"
+            size="sm"
+            icon="code"
+            variant="negative"
+            label="Check the source code"
+            href={ROUTES.sourceCode}
+          />
+        </div>
+      </section>
+    </section>
+    <Divider />
+
+    <CodeBlock
+      label={{
+        label: [data.underTheHood.labelTitle, data.underTheHood.labelSupport],
+      }}
+      title={data.underTheHood.title}
+      description={data.underTheHood.description}
+      href={ROUTES.developers}
+      codeBlock={{ code: code, lang: 'js' }}
+    />
+  </section>
+  <style>
+    .why-section {
+      padding-block: var(--space-40px) var(--space-40px);
+      padding-inline: var(--space-20px);
+
+      @media (--md) {
+        padding-block: var(--space-120px) var(--space-120px);
+        padding-inline: var(--space-80px);
+      }
+    }
+
+    .why-section-content {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: var(--content-max-width);
+    }
+
+    .case-studies-section {
+      padding-inline: var(--space-20px);
+      padding-top: var(--space-32);
+      padding-bottom: 0;
+      margin-bottom: var(--space-64);
+
+      @media (--md) {
+        padding-inline: var(--space-80px);
+        padding-bottom: var(--space-40px);
+        margin-bottom: var(--space-112px);
+        padding-top: 0;
+      }
+    }
+
+    .case-studies-content {
+      margin-inline: auto;
+
+      max-width: var(--content-max-width);
+    }
+
+    .case-studies-two-cards {
+      margin-inline: auto;
+      margin-block: var(--space-32px);
+      margin-top: var(--space-32px);
+
+      max-width: var(--content-max-width);
+
+      display: grid;
+      gap: var(--space-32px);
+
+      @media (--md) {
+        margin-top: var(--space-80px);
+      }
+
+      @media (--lg) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .case-studies-three-cards {
+      margin-inline: auto;
+
+      max-width: var(--content-max-width);
+
+      display: grid;
+      gap: var(--space-32px);
+
+      @media (--xl) {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .developers-section {
+      padding-block: var(--space-20px);
+      padding-bottom: var(--space-80);
+
+      @media (--md) {
+        padding-bottom: var(--space-120);
+      }
+    }
+
+    .features-section {
+      padding-inline: var(--space-20px);
+      padding-bottom: var(--space-40px);
+
+      @media (--md) {
+        padding-inline: var(--space-80px);
+        padding-bottom: var(--space-40px);
+      }
+    }
+
+    .features-title-wrapper {
+      padding-block: var(--space-40px);
+
+      @media (--md) {
+        padding-block: var(--space-120px);
+      }
+    }
+
+    .cards-wrapper {
+      margin-inline: auto;
+
+      max-width: var(--content-max-width);
+    }
+
+    .cards-spacer {
+      margin-top: var(--space-20px);
+
+      @media (--md) {
+        margin-top: var(--space-32px);
+      }
+    }
+
+    .use-case-subsection {
+      padding: var(--space-40px) var(--space-20px) var(--space-80px)
+        var(--space-20px);
+
+      @media (--md) {
+        padding: var(--space-80px) var(--space-80px) var(--space-120px)
+          var(--space-80px);
+      }
+    }
+
+    .wrapper {
+      & .success,
+      & .error,
+      & .loading {
+        display: none;
+      }
+
+      &[data-state='success'] {
+        & .holder {
+          display: none;
+        }
+
+        & .success {
+          display: block;
+        }
+      }
+
+      &[data-state='error'] {
+        & .error {
+          display: block;
+        }
+      }
+
+      &[data-state='loading'] {
+        & .holder {
+          display: none;
+        }
+
+        & .loading {
+          display: block;
+        }
+      }
+    }
+
+    .success,
+    .loading {
+      & h3 {
+        margin-bottom: var(--space-8px);
+      }
+
+      & p {
+        margin-bottom: var(--space-32px);
+      }
+    }
+
+    .error {
+      color: var(--color-red-500);
+    }
+
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-32px);
+
+      @media (--lg) {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        gap: var(--space-52px);
+      }
+    }
+
+    .holder,
+    .success,
+    .loading {
+      grid-column: 6 / -1;
+      grid-row: span 2;
+
+      @media (--xl) {
+        grid-column: 7 / -1;
+      }
+    }
+
+    .info {
+      grid-column: 1 / 6;
+
+      @media (--xl) {
+        grid-column: 1 / 5;
+      }
+    }
+
+    .links {
+      grid-column: 1 / 6;
+      grid-row: 2;
+
+      @media (--lg) {
+        align-self: flex-end;
+      }
+
+      @media (--xl) {
+        grid-column: 1 / 5;
+      }
+    }
+
+    .wrapper {
+      max-width: var(--content-max-width);
+      box-sizing: content-box;
+      margin-inline: auto;
+      padding-inline: var(--space-20px);
+
+      @media (--md) {
+        padding-inline: var(--space-80px);
+      }
+
+      padding-top: calc(var(--space-40px) + var(--space-72px));
+      padding-bottom: var(--space-40px);
+
+      @media (--md) {
+        padding-top: calc(var(--space-80px) + var(--space-88px));
+        padding-bottom: var(--space-80px);
+      }
+    }
+
+    .info {
+      & .icon-holder {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        border: var(--space-1px) solid var(--color-subtle);
+        border-radius: var(--radii-round);
+        padding: var(--space-10px) var(--space-12px);
+
+        margin-bottom: var(--space-16px);
+      }
+
+      & h1 {
+        margin-bottom: var(--space-16px);
+      }
+
+      & p {
+        color: var(--color-secondary);
+      }
+    }
+
+    .holder,
+    .box {
+      border: var(--space-1px) solid var(--color-subtle);
+      border-radius: var(--radii-xl);
+      background-color: var(--color-offset);
+    }
+
+    .holder {
+      padding: var(--space-32px);
+
+      & h2 {
+        margin-bottom: var(--space-32px);
+      }
+
+      & form {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-24px);
+
+        & .side-by-side {
+          display: flex;
+          flex-direction: column;
+          gap: var(--space-24px);
+
+          @media (--md) {
+            flex-direction: row;
+            align-items: center;
+            & > :global(*) {
+              flex: 1;
+            }
+          }
+        }
+
+        & .box {
+          cursor: pointer;
+          user-select: none;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          padding: var(--space-16px);
+
+          & h5 {
+            margin-bottom: var(--space-2px);
+          }
+
+          & p {
+            color: var(--color-tertiary);
+          }
+        }
+
+        & :global(button) {
+          align-self: flex-start;
+        }
+      }
+    }
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      padding: var(--space-20px);
+
+      @media (--lg) {
+        width: 320px;
+      }
+
+      & h4 {
+        color: var(--color-tertiary);
+        margin-bottom: var(--space-12px);
+      }
+
+      & a {
+        display: flex;
+        align-items: center;
+        gap: var(--space-10px);
+
+        padding-block: var(--space-8px);
+
+        & [data-icon] {
+          color: var(--color-tertiary);
+        }
+
+        transition: opacity var(--transition-appearance);
+
+        @media (hover: hover) {
+          &:hover {
+            opacity: var(--opacity-60);
+          }
+        }
+      }
+    }
+
+    #advanced-settings {
+      display: none;
+
+      &[data-display='visible'>] {
+        display: block;
+      }
+
+      .row {
+        display: flex;
+        flex-direction: column;
+
+        & > div {
+          margin-bottom: 16px;
+        }
+
+        @media (--md) {
+          flex-direction: row;
+          margin-bottom: 16px;
+
+          & > div {
+            margin-bottom: 0;
+          }
+
+          & > div:nth-child(2) {
+            margin-left: 16px;
+            flex-grow: 1;
+          }
+        }
+
+        & > div:nth-child(1) {
+          min-width: 260px;
+
+          @media (--xxl) {
+            min-width: 300px;
+          }
+        }
+
+        &:first-child {
+          & > div:nth-child(1) {
+            min-width: 200px;
+
+            @media (--xxl) {
+              min-width: 230px;
+            }
+          }
+        }
+      }
+    }
+
+    .btn-row {
+      display: flex;
+    }
+
+    #credential-id {
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-semibold);
+      line-height: var(--font-line-height-relaxed);
+      letter-spacing: var(--font-letter-spacing-tigher);
+      all: unset;
+      padding-left: var(--field-inline-padding);
+      padding-right: var(--field-top-padding);
+      padding-top: var(--field-top-padding);
+      padding-bottom: var(--field-inline-padding);
+      border-width: 2px;
+      border-style: inset;
+      border-color: -internal-light-dark(
+        rgb(118, 118, 118),
+        rgb(133, 133, 133)
+      );
+      border-image: initial;
+      --field-inline-padding: var(--space-16px);
+      --field-top-padding: var(--space-28px);
+      --field-bottom-padding: var(--space-10px);
+      --field-inline-padding-with-icon: calc(
+        var(--field-inline-padding) + var(--icon-width) + var(--space-12px)
+      );
+      --icon-width: var(--space-16px);
+      position: relative;
+      display: inline-block;
+      border: var(--space-1) solid var(--color-subtle);
+      border-radius: var(--radii-l);
+      margin-bottom: 16px;
+    }
+  </style>
+</MainLayout>

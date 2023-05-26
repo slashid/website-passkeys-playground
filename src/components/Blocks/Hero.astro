@@ -1,0 +1,236 @@
+---
+import Button, { Props as ButtonProps } from '@components/Button.astro'
+import Label, { type Props as LabelProps } from '@components/Label.astro'
+
+export interface Props {
+  variant?: 'main' | 'secondary' | 'standard' | 'blog-index' | 'article'
+  label?: LabelProps
+  title: string[]
+  description?: string | string[]
+  button?: ButtonProps
+}
+
+const { variant = 'standard', label, title, description, button } = Astro.props
+---
+
+<section class:list={['hero-section', 'dark-bg', variant]} data-theme={'dark'}>
+  <div class="hero-content-wrapper">
+    <div class="hero-text-wrapper">
+      {label && <Label {...label} />}
+
+      <div class="hero-title-wrapper">
+        {variant === 'main' && <h1 class="font-6xl-title">{title[0]}</h1>}
+
+        {
+          variant === 'blog-index' && (
+            <>
+              <h1 class="font-6xl-title">{title[0]}</h1>
+              <div class="slash" />
+              <div class="slash-shadow" />
+            </>
+          )
+        }
+
+        {
+          (variant === 'secondary' ||
+            variant === 'article' ||
+            variant === 'standard') && (
+            <h1 class="font-5xl-title">{title[0]}</h1>
+          )
+        }
+      </div>
+
+      {
+        description && (
+          <h2 class:list={['hero-description', 'font-2xl']}>
+            {Array.isArray(description) ? (
+              <Fragment>
+                {description.map((block, i) => (
+                  <Fragment>
+                    <span>{block}</span>
+                    {i < description.length - 1 && <br />}
+                  </Fragment>
+                ))}
+              </Fragment>
+            ) : (
+              <Fragment>{description}</Fragment>
+            )}
+          </h2>
+        )
+      }
+
+      {button && <Button {...button} />}
+
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-section {
+    &.dark-bg {
+      background-color: var(--color-background);
+    }
+
+    /* Top padding compensating for header which will be positioned absolutely */
+    &.main {
+      padding: calc(var(--space-80px) + var(--header-height)) var(--space-20px)
+        var(--space-80px);
+
+      @media (--md) {
+        padding: calc(var(--space-120px) + var(--header-height))
+          var(--space-80px) var(--space-60px);
+      }
+    }
+
+    &.blog-index {
+      padding: calc(var(--space-80px) + var(--header-height)) var(--space-20px)
+        var(--space-80px);
+
+      @media (--md) {
+        padding: calc(var(--space-120px) + var(--header-height))
+          var(--space-80px) var(--space-120px);
+      }
+    }
+
+    &.secondary {
+      padding: calc(var(--space-40px) + var(--header-height)) var(--space-20px)
+        var(--space-40px);
+
+      @media (--md) {
+        padding: calc(var(--space-80px) + var(--header-height))
+          var(--space-80px) var(--space-80px);
+      }
+    }
+
+    &.standard,
+    &.article {
+      padding: calc(var(--space-40px) + var(--header-height)) var(--space-20px)
+        var(--space-40px);
+
+      @media (--md) {
+        padding: calc(var(--space-120px) + var(--header-height))
+          var(--space-80px) var(--space-120px);
+      }
+    }
+
+    &.main,
+    &.blog-index {
+      & .hero-content-wrapper {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      & .hero-text-wrapper {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    &.blog-index .hero-title-wrapper {
+      position: relative;
+    }
+
+    &.secondary {
+      & .hero-content-wrapper {
+        flex-direction: column;
+        gap: var(--space-40px);
+
+        @media (--lg) {
+          flex-direction: row;
+          gap: var(--space-80px);
+        }
+      }
+
+      & .hero-text-wrapper {
+        flex-direction: column;
+        flex-shrink: 3;
+
+        justify-content: center;
+        align-items: center;
+      }
+    }
+
+    &.standard,
+    &.article {
+      & .hero-content-wrapper {
+        max-width: 660px;
+
+        flex-direction: column;
+        align-items: center;
+      }
+
+      & .hero-text-wrapper {
+        flex-direction: column;
+      }
+
+      & .hero-description {
+        margin-bottom: var(--space-16);
+      }
+    }
+
+    &.standard {
+      & .hero-text-wrapper {
+        align-items: center;
+        text-align: center;
+      }
+    }
+  }
+
+  .hero-content-wrapper {
+    margin-inline: auto;
+
+    max-width: var(--content-max-width);
+
+    display: flex;
+  }
+
+  .hero-text-wrapper {
+    display: flex;
+  }
+
+  .hero-title-wrapper {
+    margin-block: var(--space-16);
+  }
+
+  .hero-description {
+    margin-bottom: var(--space-32);
+
+    color: hsl(var(--color-secondary-hsl) / var(--opacity-60));
+  }
+
+  .slash,
+  .slash-shadow {
+    width: 8px;
+    height: 100%;
+
+    background-color: var(--color-accent);
+
+    border-radius: var(--radii-xxs);
+
+    position: absolute;
+    left: 56%;
+    top: 50%;
+    transform: skewX(-12deg) translateX(-10px) translateY(-50%);
+
+    @media (--md) {
+      width: 18px;
+
+      border-radius: var(--radii-xs);
+
+      left: 54%;
+    }
+  }
+
+  .slash {
+    outline: var(--color-background) var(--space-6px) solid;
+    @media (--md) {
+      outline: var(--color-background) var(--space-12px) solid;
+    }
+  }
+
+  .slash-shadow {
+    box-shadow: 0px 0px 24px 0px
+      hsl(var(--color-accent-hsl) / var(--opacity-30));
+  }
+</style>

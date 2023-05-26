@@ -1,0 +1,76 @@
+/* https://github.com/shikijs/shiki/blob/main/docs/themes.md#theming-with-css-variables */
+
+/* Code blocks are dark theme by default */
+:root .astro-code,
+.theme-dark .astro-code,
+[data-theme='dark'] .astro-code,
+.theme-blue .astro-code,
+[data-theme='blue'] .astro-code {
+  --astro-code-color-text: var(--color-grey-50);
+  --astro-code-color-background: var(--color-grey-900);
+  --astro-code-token-constant: var(--color-grey-50);
+  --astro-code-token-string: var(--color-grey-50);
+  --astro-code-token-comment: var(--color-grey-50);
+  --astro-code-token-keyword: hsla(190, 100%, 50%, 1);
+  --astro-code-token-parameter: var(--color-grey-50);
+  --astro-code-token-function: hsla(157, 60%, 75%, 1);
+  --astro-code-token-string-expression: hsla(45, 100%, 71%, 1);
+  --astro-code-token-punctuation: var(--color-grey-50);
+  --astro-code-token-link: var(--color-grey-50);
+  --code-line-number: hsla(240, 10%, 65%, 1);
+}
+
+.theme-light .astro-code,
+[data-theme='light'] .astro-code {
+  --astro-code-color-text: var(--color-blue-900);
+  --astro-code-color-background: var(--color-grey-50);
+  --astro-code-token-constant: var(--color-blue-900);
+  --astro-code-token-string: var(--color-blue-900);
+  --astro-code-token-comment: var(--color-blue-900);
+  --astro-code-token-keyword: hsla(190, 100%, 30%, 1);
+  --astro-code-token-parameter: var(--color-blue-900);
+  --astro-code-token-function: hsla(157, 60%, 45%, 1);
+  --astro-code-token-string-expression: hsla(45, 100%, 36%, 1);
+  --astro-code-token-punctuation: var(--color-blue-900);
+  --astro-code-token-link: var(--color-blue-900);
+  --code-line-number: hsla(240, 10%, 65%, 1);
+}
+
+.astro-code {
+  padding: var(--space-24px);
+  border-radius: var(--radii-xl);
+
+  font-family: var(--font-family-code);
+  font-size: var(--font-size-sm);
+  line-height: var(--font-line-height-code);
+
+  overflow-x: scroll;
+
+  /* from: https://github.com/shikijs/shiki/issues/3#issuecomment-830564854 */
+  & code {
+    counter-reset: step;
+    counter-increment: step 0;
+  }
+
+  & code .line::before {
+    content: counter(step);
+    counter-increment: step;
+
+    width: 1rem;
+    margin-right: 1.5rem;
+
+    display: inline-block;
+    text-align: right;
+
+    color: var(--code-line-number);
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  & {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}

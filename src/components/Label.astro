@@ -1,0 +1,62 @@
+---
+import Icon from './Icon/Icon.astro'
+import type { IconVariant } from './Icon/types'
+
+export interface Props {
+  label?: [string] | [string, string]
+  icon?: IconVariant
+  class?: string
+}
+
+const { label, icon, class: className } = Astro.props
+---
+
+<div class:list={['label-host', 'font-sm-title', { icon }, className]}>
+  {
+    icon && (
+      <>
+        <Icon variant={icon} />
+        {label && <span class="slash">/</span>}
+      </>
+    )
+  }
+  {
+    (label || []).map((part, i) => (
+      <>
+        {i > 0 && <span class="slash">/</span>}
+        <span>{part}</span>
+      </>
+    ))
+  }
+</div>
+
+<style>
+  .label-host {
+    padding: var(--space-10px) var(--space-12px);
+    width: fit-content;
+
+    display: flex;
+    gap: var(--space-8px);
+    align-items: center;
+    flex-wrap: wrap;
+
+    border: var(--space-1) solid var(--color-subtle);
+    border-radius: var(--radii-l);
+
+    &.icon span {
+      color: var(--color-foreground);
+    }
+
+    &:not(.icon) span:not(.slash):not(:first-child) {
+      color: var(--color-tertiary);
+    }
+    & span {
+      white-space: nowrap;
+      color: var(--color-foreground);
+    }
+
+    & span.slash {
+      color: var(--color-subtle);
+    }
+  }
+</style>

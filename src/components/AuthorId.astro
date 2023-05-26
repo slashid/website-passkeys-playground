@@ -1,0 +1,38 @@
+---
+import Avatar from './Avatar.astro'
+
+export interface Props {
+  size?: 'sm' | 'md'
+  author: { name: string; avatar?: string }
+}
+
+const { author, size = 'md' } = Astro.props
+---
+
+<div class:list={['host', size]}>
+  <Avatar size={size} alt={author.name} src={author.avatar} />
+  {author.name}
+</div>
+
+<style>
+  .host {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-8px);
+
+    color: var(--color-secondary);
+
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--font-line-height-tight);
+    letter-spacing: var(--font-letter-spacing-tight);
+
+    /* Sizes */
+    &.sm {
+      font-size: var(--font-size-sm);
+    }
+
+    &.md {
+      font-size: var(--font-size-base);
+    }
+  }
+</style>

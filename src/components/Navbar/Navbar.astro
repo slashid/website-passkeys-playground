@@ -1,0 +1,230 @@
+---
+import { ROUTES } from '@common/routes'
+
+// import Button from '../Button.astro'
+import Logo from '../Logo.astro'
+// import MenuLink from '../MenuLink.astro'
+// import MobileMenu from './MobileMenu.astro'
+// import type { Navigation } from './types'
+
+export interface Props {
+  theme?: 'dark' | 'light'
+}
+
+const { theme } = Astro.props
+
+// const navigation: Navigation[] = [
+//   {
+//     label: 'Documentation',
+//     href: ROUTES.documentation,
+//   },
+// ]
+---
+
+<header class="header-host" data-theme={theme}>
+  <div class="header-content">
+    <a href={ROUTES.home} class="logo-link" aria-label="SlashID homepage">
+      <Logo />
+    </a>
+
+    <nav class="nav-links">
+      <div class="dropdown-container"></div>
+
+      <!-- <ul>
+        {
+          navigation.map((item) => (
+            <li class={item.dropdown ? 'with-dropdown' : undefined}>
+              <MenuLink
+                label={item.label}
+                href={item.href}
+                badgeQuantity={item.badgeQuantity}
+              />
+            </li>
+          ))
+        }
+      </ul> -->
+    </nav>
+
+    <!-- <div class="access-link">
+      <Button
+        as="a"
+        variant="outline"
+        icon="fire"
+        label="Get started"
+        href={ROUTES.requestAccess}
+      />
+    </div> -->
+
+    <!-- <div class="mobile-menu-button">
+      <Button
+        id="mobile-menu"
+        variant="outline"
+        icon="burguer-menu"
+        aria-label="Toggle menu"
+      />
+    </div> -->
+  </div>
+
+  <!-- <div class="mobile-menu-wrapper">
+    <MobileMenu items={navigation} />
+  </div> -->
+</header>
+
+<style>
+  .header-host {
+    position: absolute;
+
+    padding-inline: var(--space-20px);
+
+    @media (--md) {
+      padding-inline: var(--space-80px);
+    }
+
+    width: 100%;
+    height: var(--header-height);
+
+    display: flex;
+    align-items: center;
+
+    background-color: transparent !important;
+  }
+
+  .header-content {
+    margin-inline: auto;
+
+    width: 100%;
+    max-width: var(--content-max-width);
+
+    display: flex;
+    justify-content: space-between;
+
+    @media (--lg) {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+    }
+  }
+
+  .logo-link {
+    margin-right: var(--space-16px);
+    width: fit-content;
+
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .nav-links {
+    position: relative;
+
+    display: none;
+
+    @media (--lg) {
+      display: block;
+    }
+
+    & > ul {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-16px);
+    }
+  }
+
+  .access-link {
+    margin-left: var(--space-16px);
+
+    display: none;
+
+    @media (--lg) {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+
+  .dropdown-container {
+    position: absolute;
+
+    border-radius: var(--radii-xl);
+
+    background-color: var(--color-background);
+    box-shadow: var(--shadow-lg);
+
+    opacity: 0;
+
+    transition: transform var(--transition-appearance),
+      width var(--transition-appearance), height var(--transition-appearance),
+      opacity var(--transition-appearance);
+
+    &.show {
+      opacity: 1;
+    }
+  }
+
+  .dropdown {
+    position: absolute;
+
+    margin-left: calc(var(--space-64px) * -1);
+    padding-top: var(--space-16px);
+
+    @media (--xl) {
+      margin-left: 0;
+    }
+  }
+
+  .dropdown-container,
+  .dropdown,
+  .mobile-menu-wrapper {
+    z-index: var(--z-index-max);
+  }
+
+  .with-dropdown {
+    & .dropdown {
+      opacity: 0;
+
+      pointer-events: none;
+    }
+
+    &.show .dropdown {
+      opacity: 1;
+
+      pointer-events: revert;
+
+      transition: opacity var(--transition-appearance);
+      transition-delay: 100ms;
+    }
+  }
+
+  .mobile-menu-button {
+    display: block;
+
+    @media (--lg) {
+      display: none;
+    }
+  }
+
+  .mobile-menu-wrapper {
+    position: fixed;
+
+    left: 0;
+    top: var(--header-height);
+
+    width: 100%;
+    height: calc(100% - var(--header-height));
+
+    transform: translateX(100%);
+
+    transition: transform var(--transition-appearance);
+
+    &.open {
+      transform: translateX(0%);
+    }
+
+    display: block;
+
+    @media (--lg) {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  import './script'
+</script>

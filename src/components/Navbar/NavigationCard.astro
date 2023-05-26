@@ -1,0 +1,73 @@
+---
+import Button from '@components/Button.astro'
+import Icon from '@components/Icon/Icon.astro'
+
+import type { NavigationChildren } from './types'
+
+export type Props = NavigationChildren
+
+const { icon, label, description, href } = Astro.props
+---
+
+<div class:list={['navcard-host', 'elevated-link']}>
+  {icon && <Icon variant={icon} class="navcard-icon" />}
+
+  <p class:list={['navcard-title', 'font-base-title']}>{label}</p>
+  <p class:list={['navcard-description', 'font-base']}>{description}</p>
+
+  <Button
+    as="a"
+    variant="outline"
+    icon="arrow-right"
+    href={href}
+    data-elevated
+  />
+</div>
+
+<style>
+  .navcard-host {
+    --card-bg-color: var(--color-background);
+    --card-title-color: var(--color-foreground);
+    --card-description-color: var(--color-secondary);
+    --card-icon-color: var(--color-accent);
+
+    padding: var(--space-20px);
+    width: 240px;
+
+    border-radius: 20px;
+    background-color: var(--card-bg-color);
+
+    transition: background-color var(--transition-appearance);
+
+    @media (hover: hover) {
+      &:hover {
+        --card-bg-color: var(--color-soft);
+      }
+    }
+  }
+
+  .navcard-icon {
+    transform: scale(1.5);
+    transform-origin: top left;
+
+    transition: color var(--transition-appearance);
+
+    color: var(--card-icon-color);
+  }
+
+  .navcard-title {
+    margin-block: var(--space-12) var(--space-4);
+
+    transition: color var(--transition-appearance);
+
+    color: var(--card-title-color);
+  }
+
+  .navcard-description {
+    margin-bottom: var(--space-40px);
+
+    transition: color var(--transition-appearance);
+
+    color: var(--card-description-color);
+  }
+</style>

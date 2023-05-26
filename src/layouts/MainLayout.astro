@@ -1,0 +1,22 @@
+---
+import Footer from '@components/Footer.astro'
+import Navbar from '@components/Navbar/Navbar.astro'
+
+import BaseLayout from './BaseLayout.astro'
+
+export interface Props {
+  title: string
+  withPreFooter?: boolean
+  navbarTheme?: 'dark' | 'light'
+}
+
+const { title, withPreFooter, navbarTheme } = Astro.props
+---
+
+<BaseLayout title={title}>
+  <Navbar theme={navbarTheme} />
+  <main>
+    <slot />
+  </main>
+  <Footer withPreFooter={withPreFooter} />
+</BaseLayout>

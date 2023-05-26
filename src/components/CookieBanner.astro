@@ -1,0 +1,66 @@
+---
+import { ROUTES } from '@common/routes'
+
+import Button from './Button.astro'
+import Label from './Label.astro'
+---
+
+<div id="cookie-consent" class="banner">
+  <Label class="label" icon="cookie" />
+  <p class="font-base">
+    We use cookies to improve your experience. Read our <a href={ROUTES.privacy}
+      >cookie policy.</a
+    >
+  </p>
+  <Button
+    variant="negative"
+    id="accept-button"
+    class="accept"
+    label="Accept all"
+  />
+  <Button
+    variant="outline"
+    id="reject-button"
+    class="reject"
+    label="Reject all"
+  />
+</div>
+
+<style>
+  .banner {
+    display: none;
+
+    position: fixed;
+    bottom: 12px;
+    right: 12px;
+
+    margin-left: var(--space-12px);
+
+    padding: var(--space-16px);
+    max-width: 382px;
+
+    border-radius: 20px;
+    background-color: var(--color-background);
+    box-shadow: var(--shadow-md);
+  }
+
+  .label {
+    & :global(svg) {
+      color: var(--color-accent);
+    }
+  }
+
+  p {
+    margin-block: var(--space-12px) var(--space-24px);
+    color: var(--color-secondary);
+
+    & a {
+      color: var(--color-foreground);
+      text-decoration: underline;
+    }
+  }
+
+  .accept {
+    margin-right: var(--space-8px);
+  }
+</style>

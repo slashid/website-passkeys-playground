@@ -1,0 +1,54 @@
+---
+import Card from '@components/Card.astro'
+import type { Props as LabelProps } from '@components/Label.astro'
+
+export interface Props {
+  variant?: 'three-columns' | 'three-columns-two-rows' | 'four-columns'
+  cards: {
+    label: LabelProps
+    title: string
+    description: string
+  }[]
+}
+
+const { variant = 'four-columns', cards } = Astro.props
+---
+
+<div class:list={['subtle-row-host', variant]}>
+  {cards.map((card) => <Card variant="subtle" {...card} />)}
+</div>
+
+<style>
+  .subtle-row-host {
+    display: grid;
+    gap: var(--space-20px);
+
+    @media (--md) {
+      gap: var(--space-32px);
+
+      &.four-columns {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (--lg) {
+      &.three-columns {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      &.three-columns-two-rows {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (--xl) {
+      &.four-columns {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      &.three-columns-two-rows {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  }
+</style>

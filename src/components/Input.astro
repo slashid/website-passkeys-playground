@@ -1,0 +1,190 @@
+---
+import data from '@data/ui.json'
+
+import Icon from './Icon/Icon.astro'
+import type { IconVariant } from './Icon/types'
+
+export interface Props extends astroHTML.JSX.InputHTMLAttributes {
+  label: string
+  iconLeft?: IconVariant
+  iconRight?: IconVariant
+  hasError?: boolean
+}
+
+const {
+  label,
+  iconLeft,
+  iconRight,
+  hasError,
+  placeholder = data.input.defaultPlaceholder,
+  ...attrs
+} = Astro.props
+---
+
+<div class:list={['host', { error: hasError, disabled: attrs.disabled }]}>
+  {iconLeft && <Icon variant={iconLeft} class:list={['icon', 'left']} />}
+
+  <input
+    class:list={[
+      'font-base',
+      'field',
+      { 'icon-left': iconLeft },
+      { 'icon-right': iconRight },
+    ]}
+    placeholder={placeholder}
+    {...attrs}
+  />
+
+  {iconRight && <Icon variant={iconRight} class:list={['icon', 'right']} />}
+
+  <label
+    for={attrs.id}
+    class:list={[
+      'font-base',
+      'label',
+      { 'icon-left': iconLeft },
+      { 'icon-right': iconRight },
+    ]}
+  >
+    {label}
+  </label>
+</div>
+
+<style>
+  .host {
+    /* Field layout */
+    --field-inline-padding: var(--space-16px);
+    --field-top-padding: var(--space-28px);
+    --field-bottom-padding: var(--space-10px);
+
+    --field-inline-padding-with-icon: calc(
+      var(--field-inline-padding) + var(--icon-width) + var(--space-12px)
+    );
+
+    /* Icon dimentions */
+    --icon-width: var(--space-16px);
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+
+    border: var(--space-1) solid var(--color-subtle);
+    border-radius: var(--radii-l);
+
+    transition: background-color var(--transition-appearance),
+      border-color var(--transition-appearance),
+      transform var(--transition-motion);
+
+    /* Error state */
+    &.error {
+      border-color: var(--color-red-500);
+    }
+
+    /* Disabled state */
+    &.disabled {
+      border-color: var(--color-offset);
+      cursor: not-allowed;
+    }
+
+    & .field:disabled ~ .label,
+    & .field:disabled ~ .icon {
+      color: var(--color-tertiary);
+      opacity: var(--opacity-40);
+    }
+
+    /* Common hover state */
+    @media (hover: hover) {
+      &:hover > .field:not(:disabled) {
+        background-color: var(--color-offset);
+      }
+    }
+
+    /* Common focus state */
+    &:not(.error):focus-within {
+      border-color: var(--color-tertiary);
+    }
+
+    /* Focused OR filled state */
+    & .field:not(:placeholder-shown) ~ .label,
+    & .field:focus ~ .label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+      line-height: var(--font-line-height-relaxed);
+      letter-spacing: var(--font-letter-spacing-tigher);
+
+      top: calc(var(--field-bottom-padding) * 2);
+      transform: translateY(-60%);
+    }
+  }
+
+  .icon {
+    position: absolute;
+
+    width: var(--icon-width);
+
+    color: var(--color-tertiary);
+
+    /* Icon position */
+    &.left {
+      left: var(--field-inline-padding);
+    }
+    &.right {
+      right: var(--field-inline-padding);
+    }
+  }
+
+  .label {
+    position: absolute;
+    left: var(--field-inline-padding);
+
+    color: var(--color-tertiary);
+
+    transition: all var(--transition-motion);
+
+    /* Offset when Icon is on the left side */
+    &.icon-left {
+      left: var(--field-inline-padding-with-icon);
+    }
+  }
+
+  .field {
+    all: unset;
+
+    transition: background-color var(--transition-appearance);
+
+    padding-inline: var(--field-inline-padding);
+    padding-block: var(--field-top-padding) var(--field-bottom-padding);
+
+    width: 100%;
+
+    /* Extra padding to accommodate Icon */
+    &.icon-left {
+      padding-left: var(--field-inline-padding-with-icon);
+    }
+    &.icon-right {
+      padding-right: var(--field-inline-padding-with-icon);
+    }
+
+    /* Disabled state */
+    &:disabled,
+    &[aria-disabled='true'] {
+      background-color: var(--color-soft);
+    }
+
+    /* Hide placeholder when input isn't focused */
+    &:not(:focus)::placeholder {
+      opacity: var(--opacity-0);
+    }
+
+    &::placeholder {
+      color: var(--color-placeholder);
+    }
+
+    /* Input is filled */
+    &:not(:placeholder-shown) {
+      background-color: var(--color-offset);
+    }
+  }
+</style>

@@ -1,0 +1,65 @@
+---
+import Badge from './Badge.astro'
+
+export interface Props extends astroHTML.JSX.AnchorHTMLAttributes {
+  label: string
+  badgeQuantity?: number
+  disabled?: boolean
+}
+
+const { label, badgeQuantity, disabled, ...attrs } = Astro.props
+---
+
+<a class:list={['host', { disabled: disabled }]} {...attrs}>
+  {label}
+  {badgeQuantity ? <Badge quantity={badgeQuantity} /> : undefined}
+</a>
+
+<style>
+  .host {
+    all: unset;
+
+    padding-inline: var(--space-12px);
+    height: var(--space-40px);
+
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--font-line-height-snug);
+    letter-spacing: var(--font-letter-spacing-normal);
+
+    white-space: nowrap;
+
+    cursor: pointer;
+    user-select: none;
+
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-8px);
+
+    border-radius: var(--radii-l);
+
+    transition: background-color var(--transition-appearance),
+      box-shadow var(--transition-smooth);
+
+    @media (hover: hover) {
+      &:hover {
+        background-color: var(--color-offset);
+      }
+    }
+
+    &:focus-visible {
+      box-shadow: 0 0 0 var(--space-4px)
+        hsl(var(--color-foreground-hsl) / var(--opacity-10));
+    }
+
+    &:active {
+      background-color: var(--color-offset);
+    }
+
+    &.disabled,
+    &[aria-disabled='true'] {
+      opacity: var(--opacity-40);
+      pointer-events: none;
+    }
+  }
+</style>

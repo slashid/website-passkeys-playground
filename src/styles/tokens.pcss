@@ -1,0 +1,254 @@
+:root {
+  /* ---------- */
+  /* Typography */
+  /* ---------- */
+  --font-family-sans: 'Inter', -apple-system, blinkmacsystemfont, 'Segoe UI',
+    roboto, oxygen, ubuntu, cantarell, 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
+  --font-family-code: 'IBM Plex Mono', 'SFMono-Regular', Consolas,
+    'Liberation Mono', Menlo, Courier, monospace;
+
+  /** Size **/
+  --font-size-xxs: 10px;
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 32px;
+  --font-size-4xl: 40px;
+  --font-size-5xl: 56px;
+  --font-size-6xl: 88px;
+
+  /** Weight **/
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /** Line Height **/
+  --font-line-height-none: 1;
+  --font-line-height-tight: 1.05;
+  --font-line-height-snug: 1.1;
+  --font-line-height-normal: 1.15;
+  --font-line-height-relaxed: 1.18;
+  --font-line-height-confy: 1.3;
+  --font-line-height-super-relaxed: 1.4;
+  --font-line-height-code: 1.36;
+
+  /** Letter Spacing **/
+  --font-letter-spacing-tigher: -0.022em;
+  --font-letter-spacing-tight: -0.017em;
+  --font-letter-spacing-normal: -0.006em;
+
+  /* ------ */
+  /* Radius */
+  /* ------ */
+  --radii-xxs: 0.125rem; /* 2px */
+  --radii-xs: 0.25rem; /* 4px */
+  --radii-s: 0.5rem; /* 8px */
+  --radii-m: 0.75rem; /* 12px */
+  --radii-l: 1rem; /* 16px */
+  --radii-xl: 1.5rem; /* 24px */
+  --radii-1-5xl: 1.75rem; /* 28px */
+  --radii-2xl: 2rem; /* 32px */
+  --radii-round: 999rem;
+
+  /* ------ */
+  /* Spaces */
+  /* ------ */
+  --space-0: 0;
+  --space-1: 0.0625rem;
+  --space-1px: 1px;
+  --space-2: 0.125rem;
+  --space-2px: 2px;
+  --space-3: 0.1875rem;
+  --space-3px: 3px;
+  --space-4: 0.25rem;
+  --space-4px: 4px;
+  --space-6: 0.375rem;
+  --space-6px: 6px;
+  --space-8: 0.5rem;
+  --space-8px: 8px;
+  --space-10: 0.625rem;
+  --space-10px: 10px;
+  --space-12: 0.75rem;
+  --space-12px: 12px;
+  --space-16: 1rem;
+  --space-16px: 16px;
+  --space-20: 1.25rem;
+  --space-20px: 20px;
+  --space-24: 1.5rem;
+  --space-24px: 24px;
+  --space-28: 1.75rem;
+  --space-28px: 28px;
+  --space-32: 2rem;
+  --space-32px: 32px;
+  --space-40: 2.5rem;
+  --space-40px: 40px;
+  --space-44: 2.75rem;
+  --space-44px: 44px;
+  --space-52: 3.25rem;
+  --space-52px: 52px;
+  --space-56: 3.5rem;
+  --space-56px: 56px;
+  --space-60: 3.75rem;
+  --space-60px: 60px;
+  --space-64: 4rem;
+  --space-64px: 64px;
+  --space-72: 4.5rem;
+  --space-72px: 72px;
+  --space-80: 5rem;
+  --space-80px: 80px;
+  --space-88: 5.5rem;
+  --space-88px: 88px;
+  --space-112: 7rem;
+  --space-112px: 112px;
+  --space-120: 7.5rem;
+  --space-120px: 120px;
+  --space-128: 8rem;
+  --space-128px: 128px;
+  --space-136: 8.5;
+  --space-136px: 136px;
+  --space-160: 10;
+  --space-160px: 160px;
+  --space-200px: 12.5;
+  --space-200px: 200px;
+
+  /* ------------ */
+  /* Aspect Ratio */
+  /* ------------ */
+  --aspect-auto: auto;
+  --aspect-square: 1 / 1;
+  --aspect-landscape: 16 / 9;
+  --aspect-thin: 21 / 9;
+  --aspect-rectangle: 4 / 3;
+  --aspect-tall: 3 / 4;
+
+  /* ------------ */
+  /* Aspect Ratio */
+  /* ------------ */
+  --aspect-auto: auto;
+  --aspect-square: 1 / 1;
+  --aspect-landscape: 16 / 9;
+  --aspect-thin: 21 / 9;
+  --aspect-rectangle: 4 / 3;
+  --aspect-tall: 3 / 4;
+
+  /* ------- */
+  /* Z-index */
+  /* ------- */
+  --z-index-0: 0;
+  --z-index-1: 100;
+  --z-index-2: 200;
+  --z-index-3: 300;
+  --z-index-4: 400;
+  --z-index-5: 500;
+  --z-index-max: 999;
+
+  /* ---------- */
+  /* Animations */
+  /* ---------- */
+  --transition-appearance: 300ms ease;
+  --transition-motion: 300ms cubic-bezier(0.2, 1, 0.2, 1);
+  --transition-smooth: 400ms cubic-bezier(0.9, 0, 0.05, 1);
+  --transition-in-out: 300ms ease-in-out;
+
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --transition-appearance: 0s linear;
+      --transition-motion: 0s linear;
+      --transition-smooth: 0s linear;
+      --transition-in-out: 0s linear;
+    }
+
+    * {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+
+  /* ------- */
+  /* Palette */
+  /* ------- */
+
+  /** B&W **/
+  --color-black-hsl: 0deg 0% 0%;
+  --color-black: hsla(var(--color-black-hsl), 1);
+  --color-white-hsl: 0deg 0% 100%;
+  --color-white: hsla(var(--color-white-hsl), 1);
+
+  /** Greyscale **/
+  --color-grey-50-hsl: 240deg 9% 96%;
+  --color-grey-50: hsl(var(--color-grey-50-hsl));
+  --color-grey-900-hsl: 245deg 32% 8%;
+  --color-grey-900: hsl(var(--color-grey-900-hsl));
+
+  /** Blue **/
+  --color-blue-100-hsl: 222deg 100% 98%;
+  --color-blue-100: hsl(var(--color-blue-100-hsl));
+  --color-blue-200-hsl: 223deg 100% 93%;
+  --color-blue-200: hsl(var(--color-blue-200-hsl));
+  --color-blue-300-hsl: 222deg 100% 78%;
+  --color-blue-300: hsl(var(--color-blue-300-hsl));
+  --color-blue-400-hsl: 222deg 100% 65%;
+  --color-blue-400: hsl(var(--color-blue-400-hsl));
+  --color-blue-500-hsl: 222deg 100% 58%;
+  --color-blue-500: hsl(var(--color-blue-500-hsl));
+  --color-blue-600-hsl: 222deg 85% 55%;
+  --color-blue-600: hsl(var(--color-blue-600-hsl));
+  --color-blue-700-hsl: 222deg 70% 45%;
+  --color-blue-700: hsl(var(--color-blue-700-hsl));
+  --color-blue-800-hsl: 224deg 65% 30%;
+  --color-blue-800: hsl(var(--color-blue-800-hsl));
+  --color-blue-900-hsl: 226deg 57% 18%;
+  --color-blue-900: hsl(var(--color-blue-900-hsl));
+
+  /** Red **/
+  --color-red-100-hsl: 344deg 100% 97%;
+  --color-red-100: hsl(var(--color-red-100-hsl));
+  --color-red-200-hsl: 344deg 100% 91%;
+  --color-red-200: hsl(var(--color-red-200-hsl));
+  --color-red-300-hsl: 344deg 100% 74%;
+  --color-red-300: hsl(var(--color-red-300-hsl));
+  --color-red-400-hsl: 345deg 100% 58%;
+  --color-red-400: hsl(var(--color-red-400-hsl));
+  --color-red-500-hsl: 344deg 100% 50%;
+  --color-red-500: hsl(var(--color-red-500-hsl));
+  --color-red-600-hsl: 344deg 99% 47%;
+  --color-red-600: hsl(var(--color-red-600-hsl));
+  --color-red-700-hsl: 343deg 96% 38%;
+  --color-red-700: hsl(var(--color-red-700-hsl));
+  --color-red-800-hsl: 340deg 89% 25%;
+  --color-red-800: hsl(var(--color-red-800-hsl));
+  --color-red-900-hsl: 332deg 70% 15%;
+  --color-red-900: hsl(var(--color-red-900-hsl));
+
+  /* ------------- */
+  /* Box Shadows */
+  /* ------------- */
+  --shadow-xs: 0px 4px 8px hsl(245 51% 20% / var(--opacity-2));
+  --shadow-sm: 0px 12px 24px hsl(245 51% 20% / var(--opacity-3));
+  --shadow-md: 120px 0px 184px
+      hsl(var(--color-grey-900-hsl) / var(--opacity-10)),
+    32px 80px 116px hsl(var(--color-grey-900-hsl) / var(--opacity-10));
+  --shadow-lg: 0px 12px 24px rgba(0, 0, 0, 0.12);
+
+  /* ----------*/
+  /* Opacities */
+  /* ----------*/
+  --opacity-0: 0;
+  --opacity-1: 0.01;
+  --opacity-2: 0.02;
+  --opacity-3: 0.03;
+  --opacity-4: 0.04;
+  --opacity-8: 0.08;
+  --opacity-10: 0.1;
+  --opacity-16: 0.16;
+  --opacity-20: 0.2;
+  --opacity-30: 0.3;
+  --opacity-40: 0.4;
+  --opacity-50: 0.5;
+  --opacity-60: 0.6;
+  --opacity-80: 0.8;
+  --opacity-100: 1;
+}

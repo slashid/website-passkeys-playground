@@ -1,0 +1,279 @@
+---
+export interface Props {
+  as?: 'article' | 'div'
+}
+
+const { as = 'div' } = Astro.props
+
+const Element = as
+---
+
+<Element class="rich-text">
+  <slot />
+</Element>
+
+<style>
+  @import '../styles/utilities/typography.pcss';
+
+  :root {
+    --article-negative-space: var(--space-80);
+  }
+
+  hr {
+    margin-block: var(--space-80);
+
+    position: relative;
+    overflow: visible;
+
+    border: 0;
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-tertiary);
+    border-radius: 100%;
+
+    &:before,
+    &:after {
+      position: absolute;
+      display: block;
+      content: '';
+      width: 6px;
+      height: 6px;
+      background-color: var(--color-tertiary);
+      border-radius: 100%;
+    }
+
+    &:before {
+      left: -32px;
+    }
+
+    &:after {
+      right: -32px;
+    }
+  }
+
+  .rich-text {
+    @extend .font-xl-super-relaxed;
+
+    & :global(h2),
+    & :global(h3),
+    & :global(h4),
+    & :global(h5),
+    & :global(h6) {
+      margin-bottom: 1.5ch;
+
+      &:not(:first-child) {
+        margin-top: 4ch;
+      }
+    }
+
+    & :global(h2) {
+      @extend .font-3xl-title;
+    }
+
+    & :global(h3) {
+      @extend .font-xl-title;
+    }
+
+    & :global(h4),
+    & :global(h5),
+    & :global(h6) {
+      @extend .font-base-title;
+    }
+
+    & :global(p),
+    & :global(ol),
+    & :global(li) {
+      @extend .font-xl-super-relaxed;
+    }
+
+    & :global(p) {
+      margin-bottom: 1.5ch;
+    }
+
+    & :global(a) {
+      color: var(--color-accent);
+
+      background-image: linear-gradient(
+        var(--color-accent),
+        var(--color-accent)
+      );
+      background-size: 0 var(--space-2px);
+      background-repeat: no-repeat;
+      background-position: 100% 100%;
+
+      transition: background-size var(--transition-smooth);
+
+      @media (hover: hover) {
+        &:hover {
+          background-position: 0% 100%;
+          background-size: 100% var(--space-2px);
+        }
+      }
+    }
+
+    & :global(ul) {
+      list-style-type: disc;
+    }
+
+    & :global(ol) {
+      list-style-type: decimal;
+    }
+
+    & :global(ul),
+    & :global(ol) {
+      list-style-position: outside;
+
+      padding: 0;
+
+      margin-block: 2ch;
+
+      & :global(ul),
+      & :global(ol) {
+        margin-block: 0;
+        margin-inline: 0;
+      }
+
+      & :global(li) {
+        margin: 1ch 2ch;
+
+        &::marker {
+          color: var(--color-tertiary);
+        }
+      }
+    }
+
+    & :global(img),
+    & :global(pre) {
+      display: block;
+
+      margin-block: 5ch;
+      width: 100%;
+      height: auto;
+
+      border: var(--space-1px) solid var(--color-subtle);
+      border-radius: var(--radii-xl);
+
+      @media (--lg) {
+        margin-inline: calc(var(--article-negative-space) * -1);
+        width: calc(100% + var(--article-negative-space) * 2);
+      }
+    }
+
+    & :global(p code) {
+      display: inline;
+      font-family: var(--font-family-code);
+      font-size: 0.9em;
+      font-weight: var(--font-weight-medium);
+      background-color: var(--color-subtle);
+      color: var(--color-foreground);
+      padding: var(--space-2px) var(--space-8px);
+      border-radius: var(--radii-xs);
+    }
+
+    & :global(strong) {
+      font-weight: var(--font-weight-semibold);
+    }
+
+    & :global(hr) {
+      margin-block: var(--space-80);
+
+      position: relative;
+      overflow: visible;
+
+      border: 0;
+      width: 6px;
+      height: 6px;
+      background-color: var(--color-tertiary);
+      border-radius: 100%;
+
+      &:before,
+      &:after {
+        position: absolute;
+        display: block;
+        content: '';
+        width: 6px;
+        height: 6px;
+        background-color: var(--color-tertiary);
+        border-radius: 100%;
+      }
+
+      &:before {
+        left: -32px;
+      }
+
+      &:after {
+        right: -32px;
+      }
+    }
+
+    & :global(blockquote) {
+      padding: var(--space-20px);
+      background-color: var(--color-soft);
+      border-radius: var(--radii-xs);
+
+      margin-bottom: 1.5ch;
+
+      border-left: var(--space-6px) solid var(--color-accent);
+
+      & :global(p:last-child) {
+        margin-bottom: 0;
+      }
+    }
+
+    & :global(table) {
+      @extend .font-base;
+
+      display: block;
+      width: fit-content;
+      white-space: nowrap;
+
+      overflow-x: auto;
+
+      margin-block: 5ch;
+      margin-inline: auto;
+      max-width: 100%;
+
+      @media (--lg) {
+        margin-inline: calc(var(--article-negative-space) * -1);
+        max-width: calc(100% + var(--article-negative-space) * 2);
+      }
+
+      --border: 1px solid var(--color-subtle);
+
+      border-collapse: separate;
+      border-radius: var(--radii-xl);
+      border: var(--border);
+
+      & :global(th:not(:last-child)),
+      & :global(td:not(:last-child)) {
+        border-right: var(--border);
+      }
+
+      & :global(thead > tr:not(:last-child) > td),
+      & :global(tbody > tr:not(:last-child) > th),
+      & :global(tbody > tr:not(:last-child) > td),
+      & :global(thead > tr > th),
+      & :global(tfoot > tr:not(:last-child) > th),
+      & :global(tfoot > tr:not(:last-child) > td),
+      & :global(tr:not(:last-child) > td),
+      & :global(tr:not(:last-child) > th),
+      & :global(thead:not(:last-child)),
+      & :global(tbody:not(:last-child)),
+      & :global(tfoot:not(:last-child)) {
+        border-bottom: var(--border);
+      }
+
+      & :global(thead) {
+        background-color: var(--color-soft);
+      }
+
+      & :global(tbody) {
+      }
+
+      & :global(th),
+      & :global(td) {
+        padding: var(--space-16px);
+      }
+    }
+  }
+</style>

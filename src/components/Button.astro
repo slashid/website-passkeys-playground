@@ -1,0 +1,232 @@
+---
+import Icon from './Icon/Icon.astro'
+import type { IconVariant } from './Icon/types'
+
+type ButtonVariant =
+  | 'solid'
+  | 'ghost'
+  | 'outline'
+  | 'outline-accent'
+  | 'negative'
+
+type BaseProps = {
+  variant?: ButtonVariant
+  size?: 'md' | 'sm'
+  label?: string
+  icon?: IconVariant
+  iconPosition?: 'left' | 'right'
+  fullWidth?: boolean
+}
+
+interface AnchorProps
+  extends Omit<astroHTML.JSX.IntrinsicElements['a'], 'slot' | 'type'> {
+  as: 'a'
+}
+
+interface ButtonProps
+  extends Omit<astroHTML.JSX.IntrinsicElements['button'], 'slot'> {
+  as?: 'button'
+}
+
+export type Props = BaseProps & (ButtonProps | AnchorProps)
+
+const {
+  as = 'button',
+  variant = 'solid',
+  size = 'sm',
+  label,
+  icon,
+  iconPosition,
+  class: className,
+  fullWidth,
+  ...attributes
+} = Astro.props
+
+const Element = as
+---
+
+<Element
+  class:list={['button-host', { 'full-width': fullWidth }]}
+  {...attributes}
+>
+  <div
+    class:list={[
+      'button-inner',
+      `${variant}`,
+      `${size}`,
+      { 'icon-right': iconPosition === 'right' },
+      className,
+    ]}
+  >
+    <span class="spinner"></span>
+    {
+      icon && (
+        <Icon variant={icon} class:list={['icon', { 'icon-only': !label }]} />
+      )
+    }
+    <span>{label}</span>
+  </div>
+</Element>
+
+<style>
+  .button-host {
+    all: unset;
+
+    cursor: pointer;
+    user-select: none;
+
+    @media (hover: hover) {
+      &:hover .button-inner {
+        background-color: var(--button-bg-color-hover);
+
+        &.outline,
+        &.outline-accent {
+          --button-border-color: transparent;
+        }
+      }
+    }
+
+    &:focus-visible .button-inner {
+      box-shadow: 0 0 0 var(--space-4px)
+        var(
+          --button-focus-color,
+          hsl(var(--color-accent-hsl) / var(--opacity-40))
+        );
+    }
+
+    &.full-width {
+      width: 100%;
+
+      & .button-inner {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    &[data-loading='true'] {
+      pointer-events: none;
+
+      & .button-inner {
+        & > *:not(.spinner) {
+          opacity: 0;
+        }
+
+        & .spinner {
+          display: block;
+          position: absolute;
+          width: var(--space-12px);
+          height: var(--space-12px);
+          border-radius: var(--radii-round);
+          border-width: var(--space-2px);
+          border-style: solid;
+          border-color: var(--button-color);
+          border-bottom-color: transparent;
+          animation: rotate360 1s linear infinite;
+        }
+      }
+    }
+  }
+
+  .button-inner {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--font-line-height-none);
+    letter-spacing: var(--font-letter-spacing-tigher);
+
+    white-space: nowrap;
+
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--radii-l);
+
+    transition: color var(--transition-appearance),
+      background-color var(--transition-appearance),
+      box-shadow var(--transition-smooth), transform var(--transition-motion);
+
+    /* Color defaults */
+    color: var(--button-color);
+    background-color: var(--button-bg-color);
+    border: var(--space-1px) solid var(--button-border-color);
+
+    /* Variants */
+    &.solid {
+      --button-color: var(--color-accent-contrast);
+      --button-bg-color: var(--color-accent);
+      --button-bg-color-hover: var(--color-accent-subtle);
+      --button-border-color: transparent;
+    }
+
+    &.ghost {
+      --button-color: var(--color-foreground);
+      --button-bg-color: transparent;
+      --button-bg-color-hover: var(--color-soft);
+      --button-focus-color: hsl(
+        var(--color-foreground-hsl) / var(--opacity-10)
+      );
+    }
+
+    &.outline,
+    &.outline-accent {
+      --button-color: var(--color-foreground);
+      --button-border-color: var(--color-subtle);
+      --button-bg-color: transparent;
+      --button-bg-color-hover: var(--color-soft);
+      --button-focus-color: hsl(
+        var(--color-foreground-hsl) / var(--opacity-10)
+      );
+    }
+
+    &.outline-accent {
+      --button-color: var(--color-accent);
+    }
+
+    &.negative {
+      --button-color: var(--color-background);
+      --button-bg-color: var(--color-foreground);
+      --button-bg-color-hover: hsl(
+        var(--color-secondary-hsl) / var(--opacity-80)
+      );
+      --button-focus-color: hsl(
+        var(--color-foreground-hsl) / var(--opacity-10)
+      );
+    }
+
+    /* Other */
+    &:disabled,
+    &[disabled],
+    &[aria-disabled='true'] {
+      opacity: var(--opacity-40);
+
+      pointer-events: none;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+
+    /* Sizes */
+    &.md {
+      padding-inline: var(--space-20px);
+      height: var(--space-56px);
+    }
+
+    &.sm {
+      padding-inline: var(--space-16px);
+      height: var(--space-40px);
+    }
+
+    /* Icon */
+    &:not(.icon-right) [data-icon]:not(.icon-only) {
+      margin-right: var(--space-8px);
+    }
+
+    &.icon-right {
+      flex-direction: row-reverse;
+
+      & [data-icon]:not(.icon-only) {
+        margin-left: var(--space-8px);
+      }
+    }
+  }
+</style>

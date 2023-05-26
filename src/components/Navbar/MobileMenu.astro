@@ -1,0 +1,96 @@
+---
+import Button from '@components/Button.astro'
+
+import NavigationItem from './NavigationItem.astro'
+import type { Navigation } from './types'
+
+export interface Props {
+  items: Navigation[]
+}
+
+const { items } = Astro.props
+---
+
+<div class="mobile-menu-host">
+  <div class="mobile-menu-content">
+    {
+      items.map((item, idx) => (
+        <>
+          <div class="mobile-menu-item">
+            {item.children ? (
+              <>
+                <p class:list={['mobile-menu-title', 'font-base-title']}>
+                  {item.label}
+                </p>
+
+                {item.children.map((link) => (
+                  <NavigationItem {...link} />
+                ))}
+              </>
+            ) : (
+              <NavigationItem {...item} />
+            )}
+          </div>
+
+          {idx !== items.length - 1 && <div class="horizontal-divider" />}
+        </>
+      ))
+    }
+  </div>
+
+  <div class="mobile-menu-request">
+    <Button as="a" size="md" icon="fire" label="Get started" fullWidth />
+  </div>
+</div>
+
+<style>
+  .mobile-menu-host {
+    padding-inline: 0;
+
+    @media (--md) {
+      padding-inline: var(--space-60px);
+    }
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    background-color: var(--color-background);
+  }
+
+  .mobile-menu-content {
+    overflow: scroll;
+  }
+
+  .mobile-menu-item {
+    padding: var(--space-8px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .mobile-menu-title {
+    padding: var(--space-12px) 0 var(--space-8) var(--space-12);
+    color: var(--color-tertiary);
+  }
+
+  .horizontal-divider {
+    height: var(--space-1px);
+
+    background-color: var(--color-soft);
+  }
+
+  .mobile-menu-request {
+    padding: var(--space-20px) var(--space-20px) var(--space-44px)
+      var(--space-20px);
+
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+  }
+</style>

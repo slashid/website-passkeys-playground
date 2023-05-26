@@ -1,0 +1,18 @@
+<div class="divider-host"></div>
+
+<style>
+  .divider-host {
+    height: var(--space-8px);
+    width: 100%;
+
+    opacity: 0.12;
+
+    mask: url("data:image/svg+xml,%3Csvg width='14' height='8' viewBox='0 0 14 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath d='M4.81603 0H10.8037L6.81191 8H0.82428L4.81603 0Z' fill='black'/%3E%3C/svg%3E");
+    mask-repeat: repeat-x;
+    background-image: linear-gradient(
+      to right,
+      hsl(var(--color-foreground-hsl) / 0.6),
+      hsl(var(--color-foreground-hsl) / 0)
+    );
+  }
+</style>

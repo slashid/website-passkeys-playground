@@ -1,0 +1,30 @@
+---
+import type { FeaturesIllustrationVariant } from './types'
+
+export interface Props {
+  variant: FeaturesIllustrationVariant
+}
+
+const { variant } = Astro.props
+
+const getSrc = () => {
+  return `/images/illustrations/features/${variant}.png`
+}
+---
+
+<picture class="features-illustration-host">
+  <source srcset={getSrc()} />
+  <img src={getSrc()} alt={variant} class="image" />
+</picture>
+
+<style>
+  .features-illustration-host {
+    max-width: 970px;
+    max-height: 546px;
+  }
+
+  .image {
+    width: 100%;
+    height: auto;
+  }
+</style>

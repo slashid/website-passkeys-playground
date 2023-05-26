@@ -1,0 +1,24 @@
+---
+import Divider from '@components/Divider.astro'
+---
+
+<div class="section-divider">
+  <div class="divider-wrapper">
+    <Divider />
+  </div>
+</div>
+
+<style>
+  .section-divider {
+    padding: var(--space-40px) var(--space-20px);
+
+    @media (--md) {
+      padding: var(--space-120px) var(--space-80px);
+    }
+  }
+
+  .divider-wrapper {
+    margin-inline: auto;
+    max-width: var(--content-max-width);
+  }
+</style>

@@ -1,0 +1,134 @@
+---
+import Card from '@components/Card.astro'
+import type { Props as LabelProps } from '@components/Label.astro'
+import SectionTitle from '@components/SectionTitle.astro'
+
+export interface Props {
+  label: LabelProps
+  title: string
+  description: string
+  subtleCards: {
+    label: LabelProps
+    title: string
+    description: string
+  }[]
+  specialCardTitle: string
+  enhanceCard: {
+    label: LabelProps
+    title: string
+    description: string
+  }
+}
+
+const {
+  label,
+  title,
+  description,
+  subtleCards,
+  specialCardTitle,
+  enhanceCard,
+} = Astro.props
+---
+
+<section class="benefits-section">
+  <div class="benefits-content-wrapper">
+    <SectionTitle
+      as="h3"
+      size="md"
+      variant="space-between"
+      label={label}
+      title={title}
+      description={description}
+    />
+
+    <div class="cards-wrapper">
+      {subtleCards.map((card) => <Card {...card} />)}
+
+      <div class="special-wrapper">
+        <Card variant="special" title={specialCardTitle} />
+      </div>
+
+      <div class="enhance-card-wrapper" data-theme="blue">
+        <Card variant="enhance" {...enhanceCard} />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .benefits-section {
+    padding: var(--space-40px) var(--space-20px);
+    padding-top: 0;
+
+    @media (--md) {
+      padding: var(--space-120px) var(--space-80px);
+      padding-top: 0;
+    }
+  }
+
+  .benefits-content-wrapper {
+    margin-inline: auto;
+
+    max-width: var(--content-max-width);
+  }
+
+  .cards-wrapper {
+    margin-top: var(--space-40);
+
+    display: grid;
+    gap: var(--space-20px);
+
+    grid-template-columns: repeat(1, 1fr);
+
+    @media (--sm) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (--md) {
+      margin-top: var(--space-80);
+      gap: var(--space-32px);
+    }
+
+    @media (--lg) {
+      grid-template-columns: repeat(2, 1fr) 1.4fr;
+    }
+
+    @media (--xl) {
+      grid-template-columns: repeat(3, 1fr) 1.4fr;
+    }
+  }
+
+  .special-wrapper {
+    display: grid;
+    grid-row: 3;
+
+    @media (--sm) {
+      grid-column: 1 / span 2;
+      grid-row: 2;
+    }
+
+    @media (--xl) {
+      grid-column: 1 / span 2;
+      grid-row: 2;
+    }
+  }
+
+  .enhance-card-wrapper {
+    display: grid;
+    border-radius: var(--radii-xl);
+
+    @media (--sm) {
+      grid-column: 2 / span 1;
+      grid-row: 4 / span 3;
+    }
+
+    @media (--lg) {
+      grid-column: 3 / span 1;
+      grid-row: 1 / span 3;
+    }
+
+    @media (--xl) {
+      grid-column: 4 / span 2;
+    }
+  }
+</style>

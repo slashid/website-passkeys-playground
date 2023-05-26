@@ -1,0 +1,178 @@
+---
+import Button from '@components/Button.astro'
+import Card from '@components/Card.astro'
+import CodeBlock, { type Props as CodeProps } from '@components/CodeBlock.astro'
+import type { Props as LabelProps } from '@components/Label.astro'
+import SectionTitle from '@components/SectionTitle.astro'
+import type { Props as SectionTitleProps } from '@components/SectionTitle.astro'
+
+export interface Props {
+  label?: LabelProps
+  title: string
+  titleSize?: SectionTitleProps['size']
+  description: string
+  href?: string
+  codeBlock: CodeProps
+  theme?: 'dark' | 'light'
+  noInlinePadding?: boolean
+
+  cards?: {
+    label: LabelProps
+    title: string
+    description: string
+  }[]
+}
+
+const {
+  title,
+  titleSize,
+  label,
+  theme = 'dark',
+  description,
+  href,
+  codeBlock,
+  cards,
+  noInlinePadding = false,
+} = Astro.props
+---
+
+<section
+  class:list={[
+    'code-block-section',
+    { 'with-no-inline-padding': noInlinePadding },
+  ]}
+>
+  <div
+    data-theme={theme}
+    class:list={['code-block-wrapper', { 'with-cards': cards }]}
+  >
+    <div class="title-wrapper">
+      <SectionTitle
+        as="h3"
+        size={titleSize}
+        title={title}
+        description={description}
+        label={label}
+      />
+
+      {
+        href && (
+          <Button
+            as="a"
+            href={href}
+            icon="blog"
+            label="Learn more"
+            variant="negative"
+            class="button"
+          />
+        )
+      }
+    </div>
+
+    <div class:list={['code-wrapper', { 'with-cards': cards }]}>
+      <CodeBlock {...codeBlock} />
+
+      {
+        cards && (
+          <div class="cards">
+            {cards.map((card) => (
+              <Card {...card} />
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .code-block-section {
+    --title-wrapper-min-height: 546px;
+    --title-wrapper-max-width: 430px;
+
+    padding: var(--space-40px) var(--space-20px);
+
+    @media (--md) {
+      padding: var(--space-40px) var(--space-80px);
+    }
+  }
+
+  .with-no-inline-padding {
+    padding-inline: 0;
+  }
+
+  .code-block-wrapper {
+    margin-inline: auto;
+
+    max-width: var(--content-max-width);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-20px);
+
+    @media (--xl) {
+      flex-direction: row;
+      gap: var(--space-80px);
+    }
+
+    &:not(.with-cards) {
+      @media (--lg) {
+        flex-direction: row;
+
+        & .title-wrapper {
+          padding-bottom: var(--space-12px);
+          min-height: var(--title-wrapper-min-height);
+        }
+      }
+    }
+  }
+
+  .title-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    flex-shrink: 0;
+
+    @media (--md) {
+      max-width: var(--title-wrapper-max-width);
+    }
+
+    @media (--xl) {
+      min-height: var(--title-wrapper-min-height);
+      padding-bottom: var(--space-12px);
+    }
+  }
+
+  .button {
+    margin-top: var(--space-16px);
+  }
+
+  .code-wrapper {
+    display: grid;
+
+    flex-grow: 1;
+    align-self: stretch;
+
+    &.with-cards {
+      gap: var(--space-20px);
+
+      @media (--md) {
+        grid-template-columns: 2fr minmax(230px, 1fr);
+        gap: var(--space-16px);
+      }
+    }
+  }
+
+  .cards {
+    display: flex;
+    flex-direction: column;
+
+    gap: var(--space-20px);
+
+    @media (--md) {
+      gap: var(--space-16px);
+    }
+  }
+</style>

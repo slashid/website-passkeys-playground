@@ -1,0 +1,234 @@
+---
+import { ROUTES } from '@common/routes'
+import SlashAnimation from '@components/SlashAnimation.svelte'
+
+import Button from './Button.astro'
+import Label from './Label.astro'
+import Logo from './Logo.astro'
+
+export interface Props {
+  withPreFooter?: boolean
+}
+
+const { withPreFooter } = Astro.props
+
+const legalLinks = [
+  { label: 'Terms', href: ROUTES.terms, external: false },
+  { label: 'Privacy', href: ROUTES.privacy, external: false },
+]
+
+const rightLinks = [
+  {
+    label: 'Social',
+    children: [
+      {
+        label: 'Twitter',
+        href: 'https://twitter.com/slashid_dev',
+        external: true,
+      },
+      {
+        label: 'Linkedin',
+        href: 'https://www.linkedin.com/company/slashid/',
+        external: true,
+      },
+    ],
+  },
+  {
+    label: 'Try it out',
+    children: [
+      { label: 'Talk to us', href: ROUTES.requestAccess, external: false },
+      {
+        label: 'Get started',
+        href: ROUTES.requestAccess,
+        external: false,
+      },
+    ],
+  },
+]
+---
+
+<div
+  class:list={['footer-host', { 'with-pre-footer': withPreFooter }]}
+  data-theme="blue"
+>
+  {
+    withPreFooter && (
+      <div class="pre-footer">
+        <Label label={['SlashID', 'Identity at scale']} />
+
+        <div class="animation-wrapper">
+          <SlashAnimation
+            titles={['Onboard users', 'Offload complexity ']}
+            client:visible
+          />
+        </div>
+
+        <p class:list={['pre-footer-description', 'font-2xl']}>
+          Move authentication to the edge.
+        </p>
+        <Button
+          as="a"
+          size="md"
+          icon="fire"
+          label="Get started"
+          href={ROUTES.requestAccess}
+        />
+      </div>
+    )
+  }
+
+  <footer class="footer-content">
+    <div class="logo-and-legal">
+      <Logo />
+
+      <nav class:list={['font-sm', 'legal']}>
+        <p>© 2023 SlashID® Inc.</p>
+        <p>All Rights Reserved.</p>
+
+        {
+          legalLinks.map((link, idx) => (
+            <>
+              <a href={link.href}>{link.label}</a>
+              {idx !== legalLinks.length - 1 && <span> · </span>}
+            </>
+          ))
+        }
+      </nav>
+    </div>
+
+    <nav class:list={['footer-links', 'font-sm-title']}>
+      {
+        rightLinks.map((col) => (
+          <div class="link-column">
+            <p>{col.label}</p>
+
+            {col.children.map((link) => (
+              <a
+                href={link.href}
+                target={link.external ? '_blank' : undefined}
+                rel={link.external ? 'noopener noreferrer' : undefined}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+        ))
+      }
+    </nav>
+  </footer>
+</div>
+
+<style>
+  .footer-host {
+    padding: 0 var(--space-20px) var(--space-44px) var(--space-20px);
+
+    &.with-pre-footer {
+      padding: var(--space-80px) var(--space-20px) var(--space-44px)
+        var(--space-20px);
+
+      background-image: url('/images/footer-image-mobile.png');
+      background-size: cover;
+    }
+
+    @media (--md) {
+      padding: 0 var(--space-80px) var(--space-80px) var(--space-80px);
+
+      &.with-pre-footer {
+        padding: var(--space-120px) var(--space-80px) var(--space-80px)
+          var(--space-80px);
+        background-image: url('/images/footer-image.png');
+      }
+    }
+  }
+
+  .pre-footer {
+    margin-inline: auto;
+    padding-bottom: var(--space-80px);
+
+    max-width: var(--content-max-width);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    border-bottom: var(--space-1) solid var(--color-subtle);
+
+    @media (--md) {
+      padding-bottom: var(--space-60px);
+    }
+  }
+
+  .animation-wrapper {
+    margin-block: var(--space-32px);
+  }
+
+  .pre-footer-description {
+    margin-bottom: var(--space-24px);
+    opacity: var(--opacity-60);
+  }
+
+  .footer-content {
+    margin-inline: auto;
+    padding-top: var(--space-44px);
+
+    max-width: var(--content-max-width);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-32px);
+
+    @media (--md) {
+      padding-top: var(--space-80px);
+
+      flex-direction: row;
+      justify-content: space-between;
+      gap: var(--space-16px);
+    }
+  }
+
+  .logo-and-legal {
+    max-width: 186px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--space-16px);
+
+    & .legal {
+      color: var(--color-secondary);
+
+      & a {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .footer-links {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-flow: column;
+    grid-template-rows: repeat(3, auto);
+    row-gap: var(--space-44px);
+    column-gap: var(--space-16px);
+
+    @media (--md) {
+      max-width: 393px;
+
+      display: flex;
+      justify-content: space-between;
+      flex-grow: 1;
+      gap: var(--space-16px);
+    }
+
+    & p {
+      color: var(--color-secondary);
+    }
+  }
+
+  .link-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12px);
+  }
+</style>

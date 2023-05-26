@@ -1,0 +1,34 @@
+---
+import type { UseCasesIllustrationVariant } from './types'
+
+export interface Props {
+  variant: UseCasesIllustrationVariant
+  size?: 'lg' | 'md'
+}
+
+const { variant, size = 'lg' } = Astro.props
+
+const getSrc = (size: 'lg' | 'md') => {
+  return `/images/illustrations/usecases/${variant}-${size}.png`
+}
+---
+
+<picture class="use-cases-illustration-host">
+  {size === 'md' && <source media="(min-width: 768px)" srcset={getSrc('md')} />}
+
+  <source srcset={getSrc('lg')} />
+
+  <img src={getSrc(size)} alt={variant} class="image" />
+</picture>
+
+<style>
+  .use-cases-illustration-host {
+    max-width: 775px;
+    max-height: 580px;
+  }
+
+  .image {
+    width: 100%;
+    height: auto;
+  }
+</style>

@@ -1,0 +1,105 @@
+---
+import { ROUTES } from '@common/routes'
+import Button from '@components/Button.astro'
+import MainLayout from '@layouts/MainLayout.astro'
+---
+
+<MainLayout title="SlashID">
+  <div class="notfound-host">
+    <div class="content-wrapper">
+      <div class="title-wrapper">
+        <h1 class="title">40<span class="dots">••</span></h1>
+        <div class="slash"></div>
+        <div class="slash-shadow"></div>
+      </div>
+
+      <p class="description font-2xl">Page not found.</p>
+
+      <Button label="Back to home" as="a" href={ROUTES.home} />
+    </div>
+  </div>
+</MainLayout>
+
+<style>
+  .notfound-host {
+    padding: calc(var(--space-80px) + var(--space-72px)) var(--space-20px)
+      var(--space-80px);
+
+    @media (--md) {
+      padding: calc(var(--space-200px) + var(--space-88px)) var(--space-80px)
+        var(--space-200px);
+    }
+  }
+
+  .content-wrapper {
+    margin-inline: auto;
+
+    max-width: var(--content-max-width);
+    width: fit-content;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .title-wrapper {
+    position: relative;
+  }
+
+  .description {
+    margin-block: var(--space-52px) var(--space-24px);
+    color: var(--color-secondary);
+  }
+
+  .dots {
+    margin-left: -32px;
+
+    color: var(--color-secondary);
+  }
+
+  .slash,
+  .slash-shadow {
+    width: 16px;
+    height: 100%;
+
+    background-color: var(--color-accent);
+
+    border-radius: var(--radii-xxs);
+
+    position: absolute;
+    left: 60%;
+    top: 50%;
+    transform: skewX(-12deg) translateX(-10px) translateY(-50%);
+
+    @media (--md) {
+      width: 32px;
+
+      border-radius: var(--radii-s);
+
+      left: 52%;
+    }
+  }
+
+  .title {
+    font-size: 100px;
+    line-height: var(--font-line-height-tight);
+    letter-spacing: var(--font-letter-spacing-tigher);
+    font-weight: var(--font-weight-bold);
+
+    @media (--md) {
+      font-size: 200px;
+    }
+  }
+
+  .slash {
+    outline: var(--color-background) var(--space-6px) solid;
+    @media (--md) {
+      outline: var(--color-background) var(--space-12px) solid;
+    }
+  }
+
+  .slash-shadow {
+    box-shadow: 0px 0px 24px 0px
+      hsl(var(--color-accent-hsl) / var(--opacity-30));
+  }
+</style>
